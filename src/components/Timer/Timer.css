@@ -1,0 +1,9 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,200&display=swap"); */
+
+.timer {
+  font-family: "Roboto Flex", sans-serif;
+  font-size: 8rem;
+  line-height: normal;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
