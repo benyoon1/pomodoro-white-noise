@@ -1,7 +1,7 @@
 .button {
   font-family: "Montserrat", sans-serif;
-  font-size: 20px;
-  padding: 7px 45px;
+  font-size: 1rem;
+  padding: 0.4rem 3rem;
   background-color: transparent;
   border: 1px solid #ffffff;
   border-radius: 40px;

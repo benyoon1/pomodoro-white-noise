@@ -1,13 +1,13 @@
 .login-button {
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
-  padding: 12px 16px;
+  padding: 0rem 1rem;
   background-color: #1e9800;
   border-radius: 7.29px;
   border: none;
-  /* border-color: #1e9800; */
   color: #ffffff;
   white-space: nowrap;
   font-weight: 400;
-  margin: 10px 0px 10px 10px;
+  margin: 0px 0px 30px 10px;
+  line-height: normal;
 }
