@@ -36,6 +36,8 @@ function App() {
           <TimerTypeButton name="Scoreboard" />
         </div>
       </div>
+
+      <div className="bottom"></div>
     </div>
   );
 }

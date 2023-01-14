@@ -9,9 +9,10 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  /* display: block; */
-  /* width: 100vw; */
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .timer-container {
@@ -27,10 +28,12 @@
   flex-direction: column; /* stack flex items vertically */
   justify-content: center; /* center items vertically, in this case */
   align-items: center; /* center items horizontally, in this case */
+  /* margin-top: 20vh; */
+  margin-bottom: 5vh;
 }
 
 .button-type-container {
-  margin-top: 15vh;
+  /* margin-top: 15vh; */
   width: 60%;
   display: flex;
   justify-content: center;
@@ -72,4 +75,8 @@
   position: absolute;
   top: 0px;
   left: 100%;
+}
+
+.bottom {
+  height: 10vh;
 }
