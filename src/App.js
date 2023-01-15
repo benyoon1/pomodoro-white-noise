@@ -12,8 +12,8 @@ function App() {
       <div className="nav-bar">
         <Logo name={`Pomodoro \n+ white noise`} />
         <div className="login-register">
-          <div class="settings-icon">
-            <button class="material-symbols-outlined">settings</button>
+          <div className="settings-icon">
+            <button className="material-symbols-outlined">settings</button>
           </div>
           <LoginButton name="Login / Register" />
         </div>
@@ -26,10 +26,10 @@ function App() {
           <TimerTypeButton name="Long Break" />
         </div>
         <Timer />
-        <div class="start-restart-container">
-          <StartButton class="start-button" name="Start" />
-          <div class="restart-icon">
-            <button class="material-symbols-outlined">refresh</button>
+        <div className="start-restart-container">
+          <StartButton className="start-button" name="Start" />
+          <div className="restart-icon">
+            <button className="material-symbols-outlined">refresh</button>
           </div>
         </div>
         <div className="scoreboard">
