@@ -8,3 +8,15 @@
   color: #ffffff;
   white-space: nowrap;
 }
+
+.button-selected {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  padding: 0.4rem 3rem;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 40px;
+  color: black;
+  white-space: nowrap;
+  font-weight: 700;
+}
