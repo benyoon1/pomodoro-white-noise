@@ -7,16 +7,22 @@
   border-radius: 40px;
   color: #ffffff;
   white-space: nowrap;
+  font-weight: 500;
 }
 
-.button-selected {
+.button-selected,
+.button:hover {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   padding: 0.4rem 3rem;
   background-color: #ffffff;
-  border: 1px solid transparent;
+  border: 1px solid #ffffff;
   border-radius: 40px;
   color: black;
   white-space: nowrap;
-  font-weight: 700;
+  font-weight: 500;
+  transition-duration: 0.15s, 0.15s, 0.15s, 0.15s;
+  transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+  transition-delay: 0s, 0s, 0s, 0s;
+  transition-property: color, background-color, border-color, box-shadow;
 }

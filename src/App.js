@@ -12,7 +12,23 @@ function App() {
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
   const [currentMinute, setCurrentMinute] = useState(25);
-  const [selectedButton, setSelectedButton] = useState(true);
+  const [clickedIndex, setClickedIndex] = useState(0);
+  const [isStartClicked, setStartClicked] = useState(false);
+
+  const timerBar = [
+    {
+      name: "Pomodoro",
+      time: 25,
+    },
+    {
+      name: "Short Break",
+      time: 5,
+    },
+    {
+      name: "Long Break",
+      time: 10,
+    },
+  ];
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -39,18 +55,22 @@ function App() {
     setMinutes(currentMinute);
     setSeconds(0);
     setTimerRunning(false);
+    setStartClicked(false);
   }
 
   function handleTimerRunning() {
     setTimerRunning(!timerRunning);
+    setStartClicked(!isStartClicked);
+    console.log("123");
   }
 
-  function handleTimerTypeButton(time, buttonState) {
+  function handleTimerTypeButton(time, index) {
     setCurrentMinute(time);
     setMinutes(time);
     setSeconds(0);
     setTimerRunning(false);
-    setSelectedButton(buttonState);
+    setClickedIndex(index);
+    setStartClicked(false);
   }
 
   return (
@@ -67,27 +87,19 @@ function App() {
 
       <div className="timer-container">
         <div className="button-type-container">
-          <TimerTypeButton
-            name="Pomodoro"
-            highlightedButton={selectedButton}
-            onTypeClick={() => {
-              handleTimerTypeButton(25, true);
-            }}
-          />
-          <TimerTypeButton
-            name="Short Break"
-            highlightedButton={selectedButton}
-            onTypeClick={() => {
-              handleTimerTypeButton(5, false);
-            }}
-          />
-          <TimerTypeButton
-            name="Long Break"
-            highlightedButton={selectedButton}
-            onTypeClick={() => {
-              handleTimerTypeButton(10, false);
-            }}
-          />
+          {timerBar.map((value, index) => {
+            return (
+              <TimerTypeButton
+                key={index}
+                name={value.name}
+                index={index}
+                clickedIndex={clickedIndex}
+                onTypeClick={() => {
+                  handleTimerTypeButton(value.time, index);
+                }}
+              />
+            );
+          })}
         </div>
         <Timer
           timerRunning={timerRunning}
@@ -97,7 +109,7 @@ function App() {
         <div className="start-restart-container">
           <StartButton
             className="start-button"
-            name="Start"
+            isStartClicked={isStartClicked}
             onStartClick={handleTimerRunning}
           />
           <div className="restart-icon">
@@ -105,7 +117,7 @@ function App() {
           </div>
         </div>
         <div className="scoreboard">
-          <TimerTypeButton name="Scoreboard" />
+          <TimerTypeButton name="Scoreboard" index={1} />
         </div>
       </div>
 

@@ -1,10 +1,13 @@
 import React from "react";
 import "./StartButton.css";
 
-function StartButton({ name, onStartClick }) {
+function StartButton({ onStartClick, isStartClicked }) {
   return (
-    <button className="start-button" onClick={onStartClick}>
-      {name}
+    <button
+      className={isStartClicked ? "start-clicked" : "start-button"}
+      onClick={onStartClick}
+    >
+      {isStartClicked ? "Pause" : "Start"}
     </button>
   );
 }
