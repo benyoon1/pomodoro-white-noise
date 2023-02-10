@@ -6,6 +6,7 @@ import StartButton from "./components/StartButton/StartButton";
 import Logo from "./components/Logo/Logo";
 import LoginButton from "./components/LoginButton/LoginButton";
 import RestartButton from "./components/RestartButton/RestartButton";
+import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
 
 function App() {
   const [timerRunning, setTimerRunning] = useState(false);
@@ -14,6 +15,11 @@ function App() {
   const [currentMinute, setCurrentMinute] = useState(25);
   const [clickedIndex, setClickedIndex] = useState(0);
   const [isStartClicked, setStartClicked] = useState(false);
+  let audio = new Audio(BeepBeep);
+
+  const playBeepBeep = () => {
+    audio.play();
+  };
 
   const timerBar = [
     {
@@ -41,6 +47,7 @@ function App() {
       if (seconds === 0) {
         if (minutes === 0) {
           clearInterval(intervalId);
+          playBeepBeep();
         } else {
           setMinutes(minutes - 1);
           setSeconds(59);
@@ -49,7 +56,7 @@ function App() {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [seconds, minutes, timerRunning]);
+  }, [seconds, minutes, timerRunning, playBeepBeep]);
 
   function handleRestartButton() {
     setMinutes(currentMinute);
