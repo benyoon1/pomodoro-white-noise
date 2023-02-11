@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import addNotification from "react-push-notification";
 import "./App.css";
 import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
@@ -15,11 +16,13 @@ function App() {
   const [currentMinute, setCurrentMinute] = useState(25);
   const [clickedIndex, setClickedIndex] = useState(0);
   const [isStartClicked, setStartClicked] = useState(false);
-  let audio = new Audio(BeepBeep);
+  const [startClickedNum, setStartClickedNum] = useState(0);
 
-  const playBeepBeep = () => {
+  const playBeepBeep = useCallback(() => {
+    let audio = new Audio(BeepBeep);
     audio.play();
-  };
+    pushNotification();
+  }, []);
 
   const timerBar = [
     {
@@ -36,6 +39,16 @@ function App() {
     },
   ];
 
+  const pushNotification = () => {
+    addNotification({
+      title: "Pomodoro + white noise",
+      subtitle: "",
+      message: "Timer is up!",
+      theme: "darkblue",
+      native: true, // when using native, your OS will handle theming.
+    });
+  };
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (!timerRunning) {
@@ -47,6 +60,7 @@ function App() {
       if (seconds === 0) {
         if (minutes === 0) {
           clearInterval(intervalId);
+          setStartClicked(false);
           playBeepBeep();
         } else {
           setMinutes(minutes - 1);
@@ -58,6 +72,18 @@ function App() {
     return () => clearInterval(intervalId);
   }, [seconds, minutes, timerRunning, playBeepBeep]);
 
+  useEffect(() => {
+    if (startClickedNum === 0) {
+      document.title = "Pomodoro + white noise";
+    } else {
+      document.title =
+        minutes +
+        ":" +
+        (seconds < 10 ? `0${seconds}` : seconds) +
+        " Pomodoro Timer";
+    }
+  }, [minutes, seconds, startClickedNum]);
+
   function handleRestartButton() {
     setMinutes(currentMinute);
     setSeconds(0);
@@ -66,18 +92,30 @@ function App() {
   }
 
   function handleTimerRunning() {
-    setTimerRunning(!timerRunning);
-    setStartClicked(!isStartClicked);
-    console.log("123");
+    // fix bug when timer is up we can click start multiple times
+    // and notification keeps popping out
+
+    if (minutes === 0 && seconds === 0) {
+      if (isStartClicked === false) {
+        setMinutes(currentMinute);
+        setSeconds(0);
+        setTimerRunning(true);
+        setStartClicked(true);
+      }
+    } else {
+      setTimerRunning(!timerRunning);
+      setStartClicked(!isStartClicked);
+      setStartClickedNum(startClickedNum + 1);
+    }
   }
 
   function handleTimerTypeButton(time, index) {
     setCurrentMinute(time);
     setMinutes(time);
     setSeconds(0);
-    setTimerRunning(false);
+    setTimerRunning(true); // not a bug, user can start timer right away when clicking timer type
     setClickedIndex(index);
-    setStartClicked(false);
+    setStartClicked(true);
   }
 
   return (
@@ -124,7 +162,7 @@ function App() {
           </div>
         </div>
         <div className="scoreboard">
-          <TimerTypeButton name="Scoreboard" index={1} />
+          {/* <TimerTypeButton name="Scoreboard" index={1} /> */}
         </div>
       </div>
 
