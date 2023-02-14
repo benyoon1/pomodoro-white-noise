@@ -7,7 +7,11 @@ import StartButton from "./components/StartButton/StartButton";
 import Logo from "./components/Logo/Logo";
 import LoginButton from "./components/LoginButton/LoginButton";
 import RestartButton from "./components/RestartButton/RestartButton";
+import PlayButton from "./components/AudioPlayerButtons/PlayButton";
 import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
+
+import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
+import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 
 function App() {
   const [timerRunning, setTimerRunning] = useState(false);
@@ -123,9 +127,9 @@ function App() {
       <div className="nav-bar">
         <Logo name={`Pomodoro \n+ white noise`} />
         <div className="login-register">
-          <div className="settings-icon">
+          {/* <div className="settings-icon">
             <button className="material-symbols-outlined">settings</button>
-          </div>
+          </div> */}
           <LoginButton name="Login / Register" />
         </div>
       </div>
@@ -161,8 +165,11 @@ function App() {
             <RestartButton onRestartClick={handleRestartButton} />
           </div>
         </div>
-        <div className="scoreboard">
+        <div className="audio-player">
           {/* <TimerTypeButton name="Scoreboard" index={1} /> */}
+          <MoreButton />
+          <PlayButton />
+          <NextSongButton />
         </div>
       </div>
 

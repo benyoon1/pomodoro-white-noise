@@ -40,8 +40,8 @@
   gap: 30px;
 }
 
-.scoreboard {
-  margin-top: 25px;
+.audio-player {
+  margin-top: 15px;
 }
 
 .nav-bar {
@@ -54,7 +54,7 @@
   display: flex;
 }
 
-.material-symbols-outlined {
+/* .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
   color: #ffffff;
   font-size: 2.2rem;
@@ -64,7 +64,7 @@
 
 .settings-icon {
   margin: 0.2rem 0rem;
-}
+} */
 
 .start-restart-container {
   position: relative;
