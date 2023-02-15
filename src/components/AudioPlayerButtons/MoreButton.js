@@ -1,11 +1,11 @@
 import React from "react";
 import { IoEllipsisHorizontal } from "react-icons/io5";
-import "./MoreButton.css";
+import "./PlayButton.css";
 
 function MoreButton({ onRestartClick }) {
   return (
     <button class="play-button" onClick={onRestartClick}>
-      <IoEllipsisHorizontal />
+      <IoEllipsisHorizontal class={"hover-button"} />
     </button>
   );
 }

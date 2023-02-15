@@ -5,7 +5,7 @@ import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
 import StartButton from "./components/StartButton/StartButton";
 import Logo from "./components/Logo/Logo";
-import LoginButton from "./components/LoginButton/LoginButton";
+// import LoginButton from "./components/LoginButton/LoginButton";
 import RestartButton from "./components/RestartButton/RestartButton";
 import PlayButton from "./components/AudioPlayerButtons/PlayButton";
 import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
@@ -20,6 +20,8 @@ function App() {
   const [currentMinute, setCurrentMinute] = useState(25);
   const [clickedIndex, setClickedIndex] = useState(0);
   const [isStartClicked, setStartClicked] = useState(false);
+  const [isPlayClicked, setPlayClicked] = useState(false);
+
   const [startClickedNum, setStartClickedNum] = useState(0);
 
   const playBeepBeep = useCallback(() => {
@@ -122,6 +124,10 @@ function App() {
     setStartClicked(true);
   }
 
+  function handlePlayer() {
+    setPlayClicked(!isPlayClicked);
+  }
+
   return (
     <div className="background">
       <div className="nav-bar">
@@ -130,7 +136,7 @@ function App() {
           {/* <div className="settings-icon">
             <button className="material-symbols-outlined">settings</button>
           </div> */}
-          <LoginButton name="Login / Register" />
+          {/* <LoginButton name="Login / Register" /> */}
         </div>
       </div>
 
@@ -168,7 +174,10 @@ function App() {
         <div className="audio-player">
           {/* <TimerTypeButton name="Scoreboard" index={1} /> */}
           <MoreButton />
-          <PlayButton />
+          <PlayButton
+            isPlayClicked={isPlayClicked}
+            onPlayClick={handlePlayer}
+          />
           <NextSongButton />
         </div>
       </div>

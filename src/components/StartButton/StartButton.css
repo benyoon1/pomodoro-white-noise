@@ -10,12 +10,17 @@
   font-weight: 700;
   width: 145px;
   height: 60px;
+  transition-duration: 0.15s, 0.15s, 0.15s, 0.15s;
+  transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out;
+  transition-delay: 0s, 0s, 0s, 0s;
+  transition-property: color, background-color, border-color, box-shadow;
+  line-height: normal;
 }
 
 .start-clicked,
 .start-button:hover {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.475rem;
+  font-size: 1.5rem;
   padding: 0.75rem 1.5rem;
   background-color: #ffffff;
   border: 1px solid #ffffff;
@@ -29,4 +34,5 @@
   transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out;
   transition-delay: 0s, 0s, 0s, 0s;
   transition-property: color, background-color, border-color, box-shadow;
+  line-height: normal;
 }
