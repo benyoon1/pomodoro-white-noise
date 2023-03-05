@@ -4,8 +4,8 @@ import "./PlayButton.css";
 
 function MoreButton({ onRestartClick }) {
   return (
-    <button class="play-button" onClick={onRestartClick}>
-      <IoEllipsisHorizontal class={"hover-button"} />
+    <button className="play-button" onClick={onRestartClick}>
+      <IoEllipsisHorizontal className={"hover-button"} />
     </button>
   );
 }

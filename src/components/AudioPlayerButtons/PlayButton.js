@@ -3,12 +3,15 @@ import { IoPlay, IoPause } from "react-icons/io5";
 import "./PlayButton.css";
 
 function PlayButton({ onPlayClick, isPlayClicked }) {
+  // onPlayClick = (e) => {
+  //   console.log(e);
+  // };
   return (
-    <button class="play-button" onClick={onPlayClick}>
+    <button className="play-button" onClick={onPlayClick}>
       {isPlayClicked ? (
-        <IoPause class={"hover-button"} />
+        <IoPause className={"hover-button"} />
       ) : (
-        <IoPlay class={"hover-button"} />
+        <IoPlay className={"hover-button"} />
       )}
     </button>
   );

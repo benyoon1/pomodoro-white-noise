@@ -4,8 +4,8 @@ import "./PlayButton.css";
 
 function NextSongButton({ onRestartClick }) {
   return (
-    <button class="play-button" onClick={onRestartClick}>
-      <IoPlaySkipForward class={"hover-button"} />
+    <button className="play-button" onClick={onRestartClick}>
+      <IoPlaySkipForward className={"hover-button"} />
     </button>
   );
 }
