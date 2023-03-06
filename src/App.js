@@ -12,7 +12,7 @@ import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
 import Sound1 from "./assets/UnderwaterLoop.wav";
 import Sound2 from "./assets/UnderwaterNoise2.mp3";
 import Sound3 from "./assets/PlaneNoise.mp3";
-import Sound4 from "./assets/60minNoise.mp3";
+//import Sound4 from "./assets/60minNoise.mp3";
 import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 
@@ -29,6 +29,10 @@ function App() {
   const [isPlayClicked, setPlayClicked] = useState(false);
   const [startClickedNum, setStartClickedNum] = useState(0);
   const [playClickedNum, setPlayClickedNum] = useState(0);
+
+  const [atStart, setAtStart] = useState(0);
+  const [timeNow, setTimeNow] = useState(0);
+  const [timeThen, setTimeThen] = useState(0);
 
   const [audioPlaying, setaudioPlaying] = useState(false);
   const audioContextRef = useRef();
@@ -53,6 +57,15 @@ function App() {
     audioContext.suspend();
   };
 
+  const togglePlayer = () => {
+    if (audioPlaying) {
+      audioContextRef.current.suspend();
+    } else {
+      audioContextRef.current.resume();
+    }
+    setaudioPlaying((play) => !play);
+  };
+
   // useEffect(() => {
   //   const audioContext = new AudioContext();
 
@@ -75,15 +88,6 @@ function App() {
   //   // Effect cleanup function to disconnect
   //   return () => source.disconnect(audioContext.destination);
   // }, []);
-
-  const togglePlayer = () => {
-    if (audioPlaying) {
-      audioContextRef.current.suspend();
-    } else {
-      audioContextRef.current.resume();
-    }
-    setaudioPlaying((play) => !play);
-  };
 
   //test
   // const [dataPlaying, setDataPlaying] = useState(false);
@@ -269,124 +273,79 @@ function App() {
     });
   };
 
-  // performance.now() is a good way of measuring durations
-  let atStart = performance.now();
-
-  function timeoutCallback() {
-    let now = performance.now();
-
-    let milliseconds = now - atStart;
-
-    // number of seconds left
-    let secondsLeft = Math.ceil(5 - milliseconds / 1000);
-    setSeconds2(secondsLeft);
-    let minutesLeft = 25;
-
-    console.log("Countdown: " + secondsLeft);
-    //console.log(minutes2);
-    //setMinutes2(minutesLeft - 1);
-
-    if (secondsLeft === 0) {
-      console.log(seconds2);
-      if (minutesLeft === 0) {
-        console.log("done");
-      } else {
-        console.log("done2");
-        setMinutes2(minutesLeft - 1);
-        minutesLeft = minutesLeft - 1;
-        secondsLeft = 60;
-        setSeconds2(59);
-        setTimeout(timeoutCallback, 1000);
-      }
-    }
-
-    if (secondsLeft > 0) {
-      setTimeout(timeoutCallback, 1000);
-    }
-  }
-
   useEffect(() => {
-    //console.log("done3");
-    //setTimeout(timeoutCallback, 1000);
-  });
+    let timeElapsed = timeNow - atStart;
 
-  const handleTimer2 = () => {
-    let atStart = performance.now();
+    // timeThen - 1 because setInterval has 1000ms delay on first iteration
+    // and timeElapsed on that timing is 0, which does not change value
+    let secondsLeft = Math.ceil(timeThen - 1 - timeElapsed / 1000);
 
-    function timeoutCallback() {
-      let now = performance.now();
-
-      let milliseconds = now - atStart;
-
-      // number of seconds left
-      let secondsLeft = Math.ceil(5 - milliseconds / 1000);
-      setSeconds2(secondsLeft);
-      let minutesLeft = 25;
-
-      console.log("Countdown: " + secondsLeft);
-      //console.log(minutes2);
-      //setMinutes2(minutesLeft - 1);
-
-      if (secondsLeft === 0) {
-        console.log(seconds2);
-        if (minutesLeft === 0) {
-          console.log("done");
-        } else {
-          console.log("done2");
-          setMinutes2(minutesLeft - 1);
-          minutesLeft = minutesLeft - 1;
-          secondsLeft = 60;
-          setSeconds2(59);
-          setTimeout(timeoutCallback, 1000);
-        }
-      }
-
-      if (secondsLeft > 0) {
-        setTimeout(timeoutCallback, 1000);
-      }
-    }
-    console.log("done3");
-    setTimeout(timeoutCallback, 1000);
-  };
-
-  // function timeoutCallback() {
-  //   let now = performance.now();
-
-  //   let milliseconds = now - atStart;
-
-  //   // number of seconds left
-  //   let secondsLeft = Math.ceil(60 - milliseconds / 1000);
-  //   console.log("Countdown: " + secondsLeft);
-  //   console.log(secondsLeft);
-  //   //setSeconds2(secondsLeft);
-
-  //   if (secondsLeft > 0) setTimeout(timeoutCallback, 1000);
-  // }
-
-  // setTimeout(timeoutCallback, 1000);
-
-  useEffect(() => {
     const intervalId = setInterval(() => {
+      setTimeNow(Date.now());
       if (!timerRunning) {
         return () => clearInterval(intervalId);
       }
+
+      // reset date.now at 1 sec because setInterval delay 1000ms, reset before cycle
+      if (seconds === 1 && timerRunning) {
+        setAtStart(Date.now());
+      }
       if (seconds > 0 && timerRunning) {
-        setSeconds(seconds - 1);
+        setSeconds(secondsLeft);
       }
       if (seconds === 0) {
         if (minutes === 0) {
           clearInterval(intervalId);
           setStartClicked(false);
           playBeepBeep();
+          setTimerRunning(false);
         } else {
           setMinutes(minutes - 1);
           setSeconds(59);
+          setTimeThen(60);
+        }
+      }
+      console.log("time then: " + timeThen);
+      console.log("milisec: " + timeElapsed / 1000);
+      console.log("seconds: " + seconds);
+      //console.log("seconds left: " + secondsLeft);
+      console.log("\n");
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [
+    seconds,
+    minutes,
+    timerRunning,
+    playBeepBeep,
+    atStart,
+    timeNow,
+    timeThen,
+  ]);
+
+  //test old timer
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (!timerRunning) {
+        return () => clearInterval(intervalId);
+      }
+      if (seconds2 > 0 && timerRunning) {
+        setSeconds2(seconds2 - 1);
+      }
+      if (seconds2 === 0) {
+        if (minutes2 === 0) {
+          clearInterval(intervalId);
+          //setStartClicked(false);
+          //playBeepBeep();
+        } else {
+          setMinutes2(minutes2 - 1);
+          setSeconds2(59);
         }
       }
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [seconds, minutes, timerRunning, playBeepBeep]);
+  }, [seconds2, minutes2, timerRunning]);
 
   useEffect(() => {
     if (startClickedNum === 0) {
@@ -425,18 +384,12 @@ function App() {
       setStartClickedNum(startClickedNum + 1);
     }
 
-    // if (secondsLeft > 0) {
-    //   setSeconds2(secondsLeft);
-    //   console.log("1");
-    // }
-    // if (seconds2 === 0) {
-    //   if (minutes2 === 0) {
-    //     console.log("done");
-    //   } else {
-    //     setMinutes2(minutes2 - 1);
-    //     setSeconds2(59);
-    //   }
-    // }
+    if (!timerRunning) {
+      setTimeThen(seconds);
+    }
+
+    setAtStart(Date.now()); // initialize start time
+    setTimeNow(Date.now()); // set time now because timenow-atstart later so no neg num
   }
 
   function handleTimerTypeButton(time, index) {
