@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Timer.css";
 
-function Timer() {
-  const [time, setTime] = useState("25:00");
+function Timer({ minutes, seconds }) {
+  const time = minutes + ":" + (seconds < 10 ? `0${seconds}` : seconds);
 
   return (
     <div>
