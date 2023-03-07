@@ -1,10 +1,11 @@
 import React from "react";
+import { IoReload } from "react-icons/io5";
 import "./RestartButton.css";
 
 function RestartButton({ onRestartClick }) {
   return (
-    <button className="material-symbols-outlined" onClick={onRestartClick}>
-      refresh
+    <button className="restart-button" onClick={onRestartClick}>
+      <IoReload className={"hover-button"} />
     </button>
   );
 }

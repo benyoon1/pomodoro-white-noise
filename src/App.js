@@ -15,6 +15,7 @@ import Sound3 from "./assets/PlaneNoise.mp3";
 //import Sound4 from "./assets/60minNoise.mp3";
 import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
+import SoundButton from "./components/AudioPlayerButtons/SoundButton";
 
 function App() {
   const [timerRunning, setTimerRunning] = useState(false);
@@ -281,14 +282,14 @@ function App() {
     let secondsLeft = Math.ceil(timeThen - 1 - timeElapsed / 1000);
 
     const intervalId = setInterval(() => {
-      setTimeNow(Date.now());
+      setTimeNow(performance.now());
       if (!timerRunning) {
         return () => clearInterval(intervalId);
       }
 
-      // reset date.now at 1 sec because setInterval delay 1000ms, reset before cycle
+      // reset performance.now at 1 sec because setInterval delay 1000ms, reset before cycle
       if (seconds === 1 && timerRunning) {
-        setAtStart(Date.now());
+        setAtStart(performance.now());
       }
       if (seconds > 0 && timerRunning) {
         setSeconds(secondsLeft);
@@ -324,28 +325,28 @@ function App() {
   ]);
 
   //test old timer
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (!timerRunning) {
-        return () => clearInterval(intervalId);
-      }
-      if (seconds2 > 0 && timerRunning) {
-        setSeconds2(seconds2 - 1);
-      }
-      if (seconds2 === 0) {
-        if (minutes2 === 0) {
-          clearInterval(intervalId);
-          //setStartClicked(false);
-          //playBeepBeep();
-        } else {
-          setMinutes2(minutes2 - 1);
-          setSeconds2(59);
-        }
-      }
-    }, 1000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (!timerRunning) {
+  //       return () => clearInterval(intervalId);
+  //     }
+  //     if (seconds2 > 0 && timerRunning) {
+  //       setSeconds2(seconds2 - 1);
+  //     }
+  //     if (seconds2 === 0) {
+  //       if (minutes2 === 0) {
+  //         clearInterval(intervalId);
+  //         //setStartClicked(false);
+  //         //playBeepBeep();
+  //       } else {
+  //         setMinutes2(minutes2 - 1);
+  //         setSeconds2(59);
+  //       }
+  //     }
+  //   }, 1000);
 
-    return () => clearInterval(intervalId);
-  }, [seconds2, minutes2, timerRunning]);
+  //   return () => clearInterval(intervalId);
+  // }, [seconds2, minutes2, timerRunning]);
 
   useEffect(() => {
     if (startClickedNum === 0) {
@@ -388,8 +389,8 @@ function App() {
       setTimeThen(seconds);
     }
 
-    setAtStart(Date.now()); // initialize start time
-    setTimeNow(Date.now()); // set time now because timenow-atstart later so no neg num
+    setAtStart(performance.now()); // initialize start time
+    setTimeNow(performance.now()); // set time now because timenow-atstart later so no neg num
   }
 
   function handleTimerTypeButton(time, index) {
@@ -447,18 +448,17 @@ function App() {
           seconds={seconds}
         />
         <div className="start-restart-container">
+          <MoreButton />
           <StartButton
             className="start-button"
             isStartClicked={isStartClicked}
             onStartClick={handleTimerRunning}
           />
-          <div className="restart-icon">
-            <RestartButton onRestartClick={handleRestartButton} />
-          </div>
+          <RestartButton onRestartClick={handleRestartButton} />
         </div>
         <div className="audio-player">
           {/* <TimerTypeButton name="Scoreboard" index={1} /> */}
-          <MoreButton />
+          <SoundButton />
           <PlayButton
             id="audio"
             isPlayClicked={isPlayClicked}
@@ -466,7 +466,7 @@ function App() {
           />
           <NextSongButton />
         </div>
-        <Timer minutes={minutes2} seconds={seconds2} />
+        {/* <Timer minutes={minutes2} seconds={seconds2} /> */}
       </div>
 
       <div className="bottom"></div>
