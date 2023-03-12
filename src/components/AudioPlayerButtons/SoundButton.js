@@ -2,9 +2,9 @@ import React from "react";
 import { IoVolumeMediumSharp } from "react-icons/io5";
 import "./PlayButton.css";
 
-function SoundButton({ onRestartClick }) {
+function SoundButton({ onVolumeClick }) {
   return (
-    <button className="play-button" onClick={onRestartClick}>
+    <button className="play-button" onClick={onVolumeClick}>
       <IoVolumeMediumSharp className={"hover-button"} />
     </button>
   );

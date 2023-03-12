@@ -16,11 +16,13 @@ import Sound3 from "./assets/PlaneNoise.mp3";
 import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 import SoundButton from "./components/AudioPlayerButtons/SoundButton";
+import VolumeSlider from "./components/AudioPlayerButtons/VolumeSlider";
 
 function App() {
   const [timerRunning, setTimerRunning] = useState(false);
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
+  const [volume, setVolume] = useState(50);
   const [minutes2, setMinutes2] = useState(25);
   const [seconds2, setSeconds2] = useState(0);
 
@@ -28,6 +30,8 @@ function App() {
   const [clickedIndex, setClickedIndex] = useState(0);
   const [isStartClicked, setStartClicked] = useState(false);
   const [isPlayClicked, setPlayClicked] = useState(false);
+  const [isVolumeClicked, setVolumeClicked] = useState(false);
+  const [audioPlaying, setaudioPlaying] = useState(false);
   const [startClickedNum, setStartClickedNum] = useState(0);
   const [playClickedNum, setPlayClickedNum] = useState(0);
 
@@ -35,11 +39,13 @@ function App() {
   const [timeNow, setTimeNow] = useState(0);
   const [timeThen, setTimeThen] = useState(0);
 
-  const [audioPlaying, setaudioPlaying] = useState(false);
   const audioContextRef = useRef();
 
   const initSound = () => {
     const audioContext = new AudioContext();
+    // const volumeControl = audioContext.createGain();
+
+    // volumeControl.gain.setValueAtTime(volume / 100, 0);
 
     let source = audioContext.createBufferSource();
     let buf;
@@ -51,6 +57,8 @@ function App() {
         source.loop = true;
       });
     source.connect(audioContext.destination);
+    // source.connect(volumeControl);
+    // volumeControl.connect(audioContext.destination);
     source.start();
 
     // Store context and start suspended
@@ -66,6 +74,13 @@ function App() {
     }
     setaudioPlaying((play) => !play);
   };
+
+  useEffect(() => {
+    if (audioContextRef.current) {
+      audioContextRef.current.volume = volume / 100;
+      console.log(volume);
+    }
+  }, [volume]);
 
   // useEffect(() => {
   //   const audioContext = new AudioContext();
@@ -411,7 +426,15 @@ function App() {
     }
     setPlayClickedNum(playClickedNum + 1);
     togglePlayer();
-    //startmfker();
+  }
+
+  function handleVolumeClick() {
+    setVolumeClicked(!isVolumeClicked);
+    console.log(isVolumeClicked);
+  }
+
+  function handleVolumeChange(volume) {
+    setVolume(volume);
   }
 
   return (
@@ -458,7 +481,7 @@ function App() {
         </div>
         <div className="audio-player">
           {/* <TimerTypeButton name="Scoreboard" index={1} /> */}
-          <SoundButton />
+          <SoundButton onVolumeClick={handleVolumeClick} />
           <PlayButton
             id="audio"
             isPlayClicked={isPlayClicked}
@@ -466,7 +489,11 @@ function App() {
           />
           <NextSongButton />
         </div>
-        {/* <Timer minutes={minutes2} seconds={seconds2} /> */}
+        {isVolumeClicked ? (
+          <VolumeSlider onVolumeChange={handleVolumeChange} />
+        ) : (
+          <div style={{ marginTop: "1.25rem" }}>&nbsp;</div>
+        )}
       </div>
 
       <div className="bottom"></div>
