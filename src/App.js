@@ -17,12 +17,13 @@ import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 import SoundButton from "./components/AudioPlayerButtons/SoundButton";
 import VolumeSlider from "./components/AudioPlayerButtons/VolumeSlider";
+//import { Player } from "tone";
 
 function App() {
   const [timerRunning, setTimerRunning] = useState(false);
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
-  const [volume, setVolume] = useState(50);
+  //const [volume, setVolume] = useState(50);
   const [minutes2, setMinutes2] = useState(25);
   const [seconds2, setSeconds2] = useState(0);
 
@@ -39,51 +40,58 @@ function App() {
   const [timeNow, setTimeNow] = useState(0);
   const [timeThen, setTimeThen] = useState(0);
 
-  const audioContextRef = useRef();
-
-  const initSound = () => {
-    const audioContext = new AudioContext();
-    // const volumeControl = audioContext.createGain();
-
-    // volumeControl.gain.setValueAtTime(volume / 100, 0);
-
-    let source = audioContext.createBufferSource();
-    let buf;
-    fetch(Sound1) // can be XHR as well
-      .then((resp) => resp.arrayBuffer())
-      .then((buf) => audioContext.decodeAudioData(buf)) // can be callback as well
-      .then((decoded) => {
-        source.buffer = buf = decoded;
-        source.loop = true;
-      });
-    source.connect(audioContext.destination);
-    // source.connect(volumeControl);
-    // volumeControl.connect(audioContext.destination);
-    source.start();
-
-    // Store context and start suspended
-    audioContextRef.current = audioContext;
-    audioContext.suspend();
-  };
-
-  const togglePlayer = () => {
-    if (audioPlaying) {
-      audioContextRef.current.suspend();
-    } else {
-      audioContextRef.current.resume();
-    }
-    setaudioPlaying((play) => !play);
-  };
+  //test
+  const [audioContext, setAudioContext] = useState(null);
+  const [source, setSource] = useState(null);
+  const [gainNode, setGainNode] = useState(null);
+  const [volume, setVolume] = useState(75);
 
   useEffect(() => {
-    if (audioContextRef.current) {
-      audioContextRef.current.volume = volume / 100;
-      console.log(volume);
-    }
-  }, [volume]);
+    const context = new AudioContext();
+    setAudioContext(context);
 
-  // useEffect(() => {
+    fetch(Sound1)
+      .then((response) => response.arrayBuffer())
+      .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+      .then((audioBuffer) => {
+        const sourceNode = context.createBufferSource();
+        sourceNode.buffer = audioBuffer;
+        sourceNode.loop = true;
+
+        const gainNode = context.createGain();
+        gainNode.gain.value = volume / 100;
+
+        sourceNode.connect(gainNode).connect(context.destination);
+        setSource(sourceNode);
+        setGainNode(gainNode);
+      });
+  }, []);
+
+  const play = () => {
+    const newSource = audioContext.createBufferSource();
+    newSource.buffer = source.buffer;
+    newSource.loop = true;
+    newSource.connect(gainNode).connect(audioContext.destination);
+    newSource.start(0);
+    setSource(newSource);
+  };
+
+  const stop = () => {
+    if (source) {
+      source.stop(0);
+    }
+    // source.stop(context.currentTime);
+    // source.disconnect(gainNode);
+  };
+
+  //Webaudio API
+  // const audioContextRef = useRef();
+
+  // const initSound = () => {
   //   const audioContext = new AudioContext();
+  //   const volumeControl = audioContext.createGain();
+
+  //   volumeControl.gain.setValueAtTime(volume / 100, 0);
 
   //   let source = audioContext.createBufferSource();
   //   let buf;
@@ -94,169 +102,31 @@ function App() {
   //       source.buffer = buf = decoded;
   //       source.loop = true;
   //     });
-  //   source.connect(audioContext.destination);
+  //   //source.connect(audioContext.destination);
+  //   source.connect(volumeControl);
+  //   volumeControl.connect(audioContext.destination);
   //   source.start();
 
   //   // Store context and start suspended
   //   audioContextRef.current = audioContext;
   //   audioContext.suspend();
+  // };
 
-  //   // Effect cleanup function to disconnect
-  //   return () => source.disconnect(audioContext.destination);
-  // }, []);
-
-  //test
-  // const [dataPlaying, setDataPlaying] = useState(false);
-  // const audioContextRef2 = useRef();
+  // const togglePlayer = () => {
+  //   if (audioPlaying) {
+  //     audioContextRef.current.suspend();
+  //   } else {
+  //     audioContextRef.current.resume();
+  //   }
+  //   setaudioPlaying((play) => !play);
+  // };
 
   // useEffect(() => {
-  //   const audioContext = new AudioContext();
-  //   const osc = audioContext.createOscillator();
-  //   osc.type = "sine";
-  //   osc.frequency.value = 880;
-
-  //   // Connect and start
-  //   osc.connect(audioContext.destination);
-  //   osc.start();
-
-  //   // Store context and start suspended
-  //   audioContextRef2.current = audioContext;
-  //   audioContext.suspend();
-
-  //   // Effect cleanup function to disconnect
-  //   return () => osc.disconnect(audioContext.destination);
-  // }, []);
-
-  // const toggleOscillator = () => {
-  //   if (dataPlaying) {
-  //     audioContextRef2.current.suspend();
-  //   } else {
-  //     audioContextRef2.current.resume();
+  //   if (audioContextRef.current) {
+  //     audioContextRef.current.gain = volume / 100;
+  //     console.log(volume);
   //   }
-  //   setDataPlaying((play) => !play);
-  // };
-
-  // let audioContext = new AudioContext(),
-  //   src = Sound1,
-  //   audioData,
-  //   source; // global so we can access them from handlers
-
-  // // Load some audio (CORS need to be allowed or we won't be able to decode the data)
-  // function initAudio() {
-  //   fetch(src, { mode: "cors" })
-  //     .then(function (resp) {
-  //       return resp.arrayBuffer();
-  //     })
-  //     .then(decode);
-  // }
-
-  // // Decode the audio file, then start the show
-  // function decode(buffer) {
-  //   audioContext.decodeAudioData(buffer, playLoop);
-  // }
-
-  // // Sets up a new source node as needed as stopping will render current invalid
-  // function playLoop(abuffer) {
-  //   if (!audioData) audioData = abuffer; // create a reference for control buttons
-  //   source = audioContext.createBufferSource(); // create audio source
-  //   source.buffer = abuffer; // use decoded buffer
-  //   source.connect(audioContext.destination); // create output
-  //   source.loop = true; // takes care of perfect looping
-  //   source.start(); // play...
-  // }
-
-  // function startmfker() {
-  //   console.log(source);
-  //   if (source) {
-  //     console.log("123");
-  //     source.stop();
-  //     source = null;
-  //   } else {
-  //     console.log("321");
-  //     playLoop(audioData);
-  //   }
-  // }
-
-  // window.onload = function () {
-  //   playSound();
-  // };
-
-  // function playSound() {
-  //   if (AudioContext) {
-  //     playAudio();
-  //   } else {
-  //     console.log("not working");
-  //     //playNormally();
-  //   }
-  // }
-
-  // function playAudio() {
-  //   let audioContext = new AudioContext(),
-  //     src = Sound1,
-  //     audioData,
-  //     source; // global so we can access them from handlers
-
-  //   // Load some audio (CORS need to be allowed or we won't be able to decode the data)
-  //   fetch(src, { mode: "cors" })
-  //     .then(function (resp) {
-  //       return resp.arrayBuffer();
-  //     })
-  //     .then(decode);
-
-  //   // Decode the audio file, then start the show
-  //   function decode(buffer) {
-  //     audioContext.decodeAudioData(buffer, playLoop);
-  //   }
-
-  //   // Sets up a new source node as needed as stopping will render current invalid
-  //   function playLoop(abuffer) {
-  //     if (!audioData) audioData = abuffer; // create a reference for control buttons
-  //     source = audioContext.createBufferSource(); // create audio source
-  //     source.buffer = abuffer; // use decoded buffer
-  //     source.connect(audioContext.destination); // create output
-  //     source.loop = true; // takes care of perfect looping
-  //     source.start(); // play...
-  //   }
-
-  //   let check2 = document.getElementById("audio2");
-  //   check2.onclick = () => {
-  //     console.log(source);
-  //     if (source) {
-  //       console.log("123");
-  //       source.stop();
-  //       source = null;
-  //     } else {
-  //       console.log("321");
-  //       playLoop(audioData);
-  //     }
-  //   };
-
-  //   // const audioContext = new AudioContext();
-  //   // let source = audioContext.createBufferSource();
-  //   // let buf;
-  //   // fetch(Sound1) // can be XHR as well
-  //   //   .then((resp) => resp.arrayBuffer())
-  //   //   .then((buf) => audioContext.decodeAudioData(buf)) // can be callback as well
-  //   //   .then((decoded) => {
-  //   //     source.buffer = buf = decoded;
-  //   //     source.loop = true;
-  //   //     source.connect(audioContext.destination);
-  //   //     check.disabled = false;
-  //   //   });
-
-  //   //let check = document.getElementById("check");
-  //   // check.onchange = (e) => {
-  //   //   console.log(e);
-  //   //   if (check.checked) {
-  //   //     source.start(0); // start our bufferSource
-  //   //   } else {
-  //   //     source.stop(0); // this destroys the buffer source
-  //   //     source = audioContext.createBufferSource(); // so we need to create a new one
-  //   //     source.buffer = buf;
-  //   //     source.loop = true;
-  //   //     source.connect(audioContext.destination);
-  //   //   }
-  // }
+  // }, [volume]);
 
   const playBeepBeep = useCallback(() => {
     let audio = new Audio(BeepBeep);
@@ -420,13 +290,26 @@ function App() {
   function handlePlayer(e) {
     setPlayClicked(!isPlayClicked);
     if (playClickedNum === 0) {
-      //playSound();
       //initAudio();
-      initSound();
+    }
+    if (!isPlayClicked) {
+      play();
+    } else {
+      stop();
     }
     setPlayClickedNum(playClickedNum + 1);
-    togglePlayer();
+    //togglePlayer();
   }
+
+  //test
+  // function handlePlayer(e) {
+  //   setPlayClicked(!isPlayClicked);
+  //   if (!isPlayClicked) {
+  //     play();
+  //   } else {
+  //     stop();
+  //   }
+  // }
 
   function handleVolumeClick() {
     setVolumeClicked(!isVolumeClicked);
@@ -435,6 +318,7 @@ function App() {
 
   function handleVolumeChange(volume) {
     setVolume(volume);
+    gainNode.gain.value = volume / 100;
   }
 
   return (
@@ -490,7 +374,7 @@ function App() {
           <NextSongButton />
         </div>
         {isVolumeClicked ? (
-          <VolumeSlider onVolumeChange={handleVolumeChange} />
+          <VolumeSlider onVolumeChange={handleVolumeChange} vol={volume} />
         ) : (
           <div style={{ marginTop: "1.25rem" }}>&nbsp;</div>
         )}

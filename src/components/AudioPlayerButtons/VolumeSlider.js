@@ -1,7 +1,7 @@
 import React from "react";
 import { Slider, Box } from "@mui/material";
 
-function VolumeSlider({ onVolumeChange }) {
+function VolumeSlider({ onVolumeChange, vol }) {
   return (
     <Box sx={{ width: 200, marginRight: "11.7rem", marginTop: "0.5rem" }}>
       <Slider
@@ -11,7 +11,7 @@ function VolumeSlider({ onVolumeChange }) {
             boxShadow: "none",
           },
         }}
-        defaultValue={50}
+        value={vol ? vol : 0}
         min={0}
         max={100}
         onChange={(e, volume) => onVolumeChange(volume)}
