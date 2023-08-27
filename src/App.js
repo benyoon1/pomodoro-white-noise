@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import addNotification from "react-push-notification";
 import "./App.css";
 import Timer from "./components/Timer/Timer";
@@ -17,40 +17,39 @@ import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 import SoundButton from "./components/AudioPlayerButtons/SoundButton";
 import VolumeSlider from "./components/AudioPlayerButtons/VolumeSlider";
-//import { Player } from "tone";
 
 function App() {
   const [timerRunning, setTimerRunning] = useState(false);
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
-  //const [volume, setVolume] = useState(50);
-  const [minutes2, setMinutes2] = useState(25);
-  const [seconds2, setSeconds2] = useState(0);
 
   const [currentMinute, setCurrentMinute] = useState(25);
   const [clickedIndex, setClickedIndex] = useState(0);
   const [isStartClicked, setStartClicked] = useState(false);
   const [isPlayClicked, setPlayClicked] = useState(false);
   const [isVolumeClicked, setVolumeClicked] = useState(false);
-  const [audioPlaying, setaudioPlaying] = useState(false);
   const [startClickedNum, setStartClickedNum] = useState(0);
-  const [playClickedNum, setPlayClickedNum] = useState(0);
 
   const [atStart, setAtStart] = useState(0);
   const [timeNow, setTimeNow] = useState(0);
   const [timeThen, setTimeThen] = useState(0);
 
-  //test
+  // Volume Slider
   const [audioContext, setAudioContext] = useState(null);
   const [source, setSource] = useState(null);
   const [gainNode, setGainNode] = useState(null);
   const [volume, setVolume] = useState(75);
+  const [whiteNoise, setWhiteNoise] = useState(Sound1);
+  const sounds = [Sound1, Sound2, Sound3];
+  const [soundCount, setSoundCount] = useState(0);
+
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const context = new AudioContext();
     setAudioContext(context);
 
-    fetch(Sound1)
+    fetch(whiteNoise)
       .then((response) => response.arrayBuffer())
       .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
       .then((audioBuffer) => {
@@ -65,9 +64,11 @@ function App() {
         setSource(sourceNode);
         setGainNode(gainNode);
       });
-  }, []);
 
-  const play = () => {
+    console.log(soundCount);
+  }, [whiteNoise, soundCount]);
+
+  const playAudio = () => {
     const newSource = audioContext.createBufferSource();
     newSource.buffer = source.buffer;
     newSource.loop = true;
@@ -76,12 +77,10 @@ function App() {
     setSource(newSource);
   };
 
-  const stop = () => {
+  const stopAudio = () => {
     if (source) {
-      source.stop(0);
+      source.stop();
     }
-    // source.stop(context.currentTime);
-    // source.disconnect(gainNode);
   };
 
   //Webaudio API
@@ -191,11 +190,10 @@ function App() {
           setTimeThen(60);
         }
       }
-      console.log("time then: " + timeThen);
-      console.log("milisec: " + timeElapsed / 1000);
-      console.log("seconds: " + seconds);
-      //console.log("seconds left: " + secondsLeft);
-      console.log("\n");
+      // console.log("time then: " + timeThen);
+      // console.log("milisec: " + timeElapsed / 1000);
+      // console.log("seconds: " + seconds);
+      // console.log("\n");
     }, 1000);
 
     return () => clearInterval(intervalId);
@@ -209,30 +207,7 @@ function App() {
     timeThen,
   ]);
 
-  //test old timer
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (!timerRunning) {
-  //       return () => clearInterval(intervalId);
-  //     }
-  //     if (seconds2 > 0 && timerRunning) {
-  //       setSeconds2(seconds2 - 1);
-  //     }
-  //     if (seconds2 === 0) {
-  //       if (minutes2 === 0) {
-  //         clearInterval(intervalId);
-  //         //setStartClicked(false);
-  //         //playBeepBeep();
-  //       } else {
-  //         setMinutes2(minutes2 - 1);
-  //         setSeconds2(59);
-  //       }
-  //     }
-  //   }, 1000);
-
-  //   return () => clearInterval(intervalId);
-  // }, [seconds2, minutes2, timerRunning]);
-
+  // Bar title
   useEffect(() => {
     if (startClickedNum === 0) {
       document.title = "Pomodoro + white noise";
@@ -245,17 +220,16 @@ function App() {
     }
   }, [minutes, seconds, startClickedNum]);
 
-  function handleRestartButton() {
+  const handleRestartButton = () => {
     setMinutes(currentMinute);
     setSeconds(0);
     setTimerRunning(false);
     setStartClicked(false);
-  }
+  };
 
-  function handleTimerRunning() {
-    // fix bug when timer is up we can click start multiple times
+  const handleTimerRunning = () => {
+    // Fixed bug when timer is up we can click start multiple times
     // and notification keeps popping out
-    //handleTimer2();
 
     if (minutes === 0 && seconds === 0) {
       if (isStartClicked === false) {
@@ -276,50 +250,72 @@ function App() {
 
     setAtStart(performance.now()); // initialize start time
     setTimeNow(performance.now()); // set time now because timenow-atstart later so no neg num
-  }
+  };
 
-  function handleTimerTypeButton(time, index) {
+  const handleTimerTypeButton = (time, index) => {
     setCurrentMinute(time);
     setMinutes(time);
     setSeconds(0);
-    setTimerRunning(true); // not a bug, user can start timer right away when clicking timer type
+    setTimerRunning(false);
     setClickedIndex(index);
-    setStartClicked(true);
-  }
+    setStartClicked(false);
+  };
 
-  function handlePlayer(e) {
+  const handlePlayer = () => {
     setPlayClicked(!isPlayClicked);
-    if (playClickedNum === 0) {
-      //initAudio();
-    }
     if (!isPlayClicked) {
-      play();
+      playAudio();
     } else {
-      stop();
+      stopAudio();
     }
-    setPlayClickedNum(playClickedNum + 1);
-    //togglePlayer();
-  }
+  };
 
-  //test
-  // function handlePlayer(e) {
-  //   setPlayClicked(!isPlayClicked);
-  //   if (!isPlayClicked) {
-  //     play();
-  //   } else {
-  //     stop();
-  //   }
-  // }
-
-  function handleVolumeClick() {
+  const handleVolumeClick = () => {
     setVolumeClicked(!isVolumeClicked);
-    console.log(isVolumeClicked);
-  }
+  };
 
-  function handleVolumeChange(volume) {
+  const handleVolumeChange = (volume) => {
     setVolume(volume);
     gainNode.gain.value = volume / 100;
-  }
+  };
+
+  const handleNextButton = () => {
+    stopAudio();
+    nextSound();
+    //testCount();
+    //setPlayClicked(!isPlayClicked);
+  };
+
+  const nextSound = () => {
+    if (soundCount === 2) {
+      setSoundCount(0);
+      //setWhiteNoise(sounds[0]);
+      changeSound(sounds[0]);
+    } else {
+      setSoundCount(soundCount + 1);
+      //setWhiteNoise(sounds[soundCount + 1]);
+      changeSound(sounds[soundCount + 1]);
+    }
+  };
+
+  const changeSound = (newSound) => {
+    fetch(newSound)
+      .then((response) => response.arrayBuffer())
+      .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+      .then((audioBuffer) => {
+        const newSource = audioContext.createBufferSource();
+        newSource.buffer = audioBuffer;
+        newSource.loop = true;
+        newSource.connect(gainNode).connect(audioContext.destination);
+        newSource.start(0);
+        source.stop(0);
+        setSource(newSource);
+      });
+  };
+
+  const testCount = () => {
+    setCount(count + 1);
+  };
 
   return (
     <div className="background">
@@ -371,7 +367,7 @@ function App() {
             isPlayClicked={isPlayClicked}
             onPlayClick={handlePlayer}
           />
-          <NextSongButton />
+          <NextSongButton onNextClick={handleNextButton} />
         </div>
         {isVolumeClicked ? (
           <VolumeSlider onVolumeChange={handleVolumeChange} vol={volume} />

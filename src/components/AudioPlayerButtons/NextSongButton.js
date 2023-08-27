@@ -2,9 +2,9 @@ import React from "react";
 import { IoPlaySkipForward } from "react-icons/io5";
 import "./PlayButton.css";
 
-function NextSongButton({ onRestartClick }) {
+function NextSongButton({ onNextClick }) {
   return (
-    <button className="play-button" onClick={onRestartClick}>
+    <button className="play-button" onClick={onNextClick}>
       <IoPlaySkipForward className={"hover-button"} />
     </button>
   );
