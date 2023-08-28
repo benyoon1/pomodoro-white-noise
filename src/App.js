@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import addNotification from "react-push-notification";
 import "./App.css";
 import Timer from "./components/Timer/Timer";
@@ -15,59 +15,82 @@ import Sound3 from "./assets/PlaneNoise.mp3";
 //import Sound4 from "./assets/60minNoise.mp3";
 import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
+import SoundButton from "./components/AudioPlayerButtons/SoundButton";
+import VolumeSlider from "./components/AudioPlayerButtons/VolumeSlider";
 
 function App() {
   const [timerRunning, setTimerRunning] = useState(false);
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
-  const [minutes2, setMinutes2] = useState(25);
-  const [seconds2, setSeconds2] = useState(0);
 
   const [currentMinute, setCurrentMinute] = useState(25);
   const [clickedIndex, setClickedIndex] = useState(0);
   const [isStartClicked, setStartClicked] = useState(false);
   const [isPlayClicked, setPlayClicked] = useState(false);
+  const [isVolumeClicked, setVolumeClicked] = useState(false);
   const [startClickedNum, setStartClickedNum] = useState(0);
-  const [playClickedNum, setPlayClickedNum] = useState(0);
 
   const [atStart, setAtStart] = useState(0);
   const [timeNow, setTimeNow] = useState(0);
   const [timeThen, setTimeThen] = useState(0);
 
-  const [audioPlaying, setaudioPlaying] = useState(false);
-  const audioContextRef = useRef();
+  // Volume Slider
+  const [audioContext, setAudioContext] = useState(null);
+  const [source, setSource] = useState(null);
+  const [gainNode, setGainNode] = useState(null);
+  const [volume, setVolume] = useState(75);
+  const [whiteNoise, setWhiteNoise] = useState(Sound1);
+  const sounds = [Sound1, Sound2, Sound3];
+  const [soundCount, setSoundCount] = useState(0);
 
-  const initSound = () => {
-    const audioContext = new AudioContext();
+  const [count, setCount] = useState(0);
 
-    let source = audioContext.createBufferSource();
-    let buf;
-    fetch(Sound1) // can be XHR as well
-      .then((resp) => resp.arrayBuffer())
-      .then((buf) => audioContext.decodeAudioData(buf)) // can be callback as well
-      .then((decoded) => {
-        source.buffer = buf = decoded;
-        source.loop = true;
+  useEffect(() => {
+    const context = new AudioContext();
+    setAudioContext(context);
+
+    fetch(whiteNoise)
+      .then((response) => response.arrayBuffer())
+      .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+      .then((audioBuffer) => {
+        const sourceNode = context.createBufferSource();
+        sourceNode.buffer = audioBuffer;
+        sourceNode.loop = true;
+
+        const gainNode = context.createGain();
+        gainNode.gain.value = volume / 100;
+
+        sourceNode.connect(gainNode).connect(context.destination);
+        setSource(sourceNode);
+        setGainNode(gainNode);
       });
-    source.connect(audioContext.destination);
-    source.start();
 
-    // Store context and start suspended
-    audioContextRef.current = audioContext;
-    audioContext.suspend();
+    console.log(soundCount);
+  }, [whiteNoise, soundCount]);
+
+  const playAudio = () => {
+    const newSource = audioContext.createBufferSource();
+    newSource.buffer = source.buffer;
+    newSource.loop = true;
+    newSource.connect(gainNode).connect(audioContext.destination);
+    newSource.start(0);
+    setSource(newSource);
   };
 
-  const togglePlayer = () => {
-    if (audioPlaying) {
-      audioContextRef.current.suspend();
-    } else {
-      audioContextRef.current.resume();
+  const stopAudio = () => {
+    if (source) {
+      source.stop();
     }
-    setaudioPlaying((play) => !play);
   };
 
-  // useEffect(() => {
+  //Webaudio API
+  // const audioContextRef = useRef();
+
+  // const initSound = () => {
   //   const audioContext = new AudioContext();
+  //   const volumeControl = audioContext.createGain();
+
+  //   volumeControl.gain.setValueAtTime(volume / 100, 0);
 
   //   let source = audioContext.createBufferSource();
   //   let buf;
@@ -78,169 +101,31 @@ function App() {
   //       source.buffer = buf = decoded;
   //       source.loop = true;
   //     });
-  //   source.connect(audioContext.destination);
+  //   //source.connect(audioContext.destination);
+  //   source.connect(volumeControl);
+  //   volumeControl.connect(audioContext.destination);
   //   source.start();
 
   //   // Store context and start suspended
   //   audioContextRef.current = audioContext;
   //   audioContext.suspend();
+  // };
 
-  //   // Effect cleanup function to disconnect
-  //   return () => source.disconnect(audioContext.destination);
-  // }, []);
-
-  //test
-  // const [dataPlaying, setDataPlaying] = useState(false);
-  // const audioContextRef2 = useRef();
+  // const togglePlayer = () => {
+  //   if (audioPlaying) {
+  //     audioContextRef.current.suspend();
+  //   } else {
+  //     audioContextRef.current.resume();
+  //   }
+  //   setaudioPlaying((play) => !play);
+  // };
 
   // useEffect(() => {
-  //   const audioContext = new AudioContext();
-  //   const osc = audioContext.createOscillator();
-  //   osc.type = "sine";
-  //   osc.frequency.value = 880;
-
-  //   // Connect and start
-  //   osc.connect(audioContext.destination);
-  //   osc.start();
-
-  //   // Store context and start suspended
-  //   audioContextRef2.current = audioContext;
-  //   audioContext.suspend();
-
-  //   // Effect cleanup function to disconnect
-  //   return () => osc.disconnect(audioContext.destination);
-  // }, []);
-
-  // const toggleOscillator = () => {
-  //   if (dataPlaying) {
-  //     audioContextRef2.current.suspend();
-  //   } else {
-  //     audioContextRef2.current.resume();
+  //   if (audioContextRef.current) {
+  //     audioContextRef.current.gain = volume / 100;
+  //     console.log(volume);
   //   }
-  //   setDataPlaying((play) => !play);
-  // };
-
-  // let audioContext = new AudioContext(),
-  //   src = Sound1,
-  //   audioData,
-  //   source; // global so we can access them from handlers
-
-  // // Load some audio (CORS need to be allowed or we won't be able to decode the data)
-  // function initAudio() {
-  //   fetch(src, { mode: "cors" })
-  //     .then(function (resp) {
-  //       return resp.arrayBuffer();
-  //     })
-  //     .then(decode);
-  // }
-
-  // // Decode the audio file, then start the show
-  // function decode(buffer) {
-  //   audioContext.decodeAudioData(buffer, playLoop);
-  // }
-
-  // // Sets up a new source node as needed as stopping will render current invalid
-  // function playLoop(abuffer) {
-  //   if (!audioData) audioData = abuffer; // create a reference for control buttons
-  //   source = audioContext.createBufferSource(); // create audio source
-  //   source.buffer = abuffer; // use decoded buffer
-  //   source.connect(audioContext.destination); // create output
-  //   source.loop = true; // takes care of perfect looping
-  //   source.start(); // play...
-  // }
-
-  // function startmfker() {
-  //   console.log(source);
-  //   if (source) {
-  //     console.log("123");
-  //     source.stop();
-  //     source = null;
-  //   } else {
-  //     console.log("321");
-  //     playLoop(audioData);
-  //   }
-  // }
-
-  // window.onload = function () {
-  //   playSound();
-  // };
-
-  // function playSound() {
-  //   if (AudioContext) {
-  //     playAudio();
-  //   } else {
-  //     console.log("not working");
-  //     //playNormally();
-  //   }
-  // }
-
-  // function playAudio() {
-  //   let audioContext = new AudioContext(),
-  //     src = Sound1,
-  //     audioData,
-  //     source; // global so we can access them from handlers
-
-  //   // Load some audio (CORS need to be allowed or we won't be able to decode the data)
-  //   fetch(src, { mode: "cors" })
-  //     .then(function (resp) {
-  //       return resp.arrayBuffer();
-  //     })
-  //     .then(decode);
-
-  //   // Decode the audio file, then start the show
-  //   function decode(buffer) {
-  //     audioContext.decodeAudioData(buffer, playLoop);
-  //   }
-
-  //   // Sets up a new source node as needed as stopping will render current invalid
-  //   function playLoop(abuffer) {
-  //     if (!audioData) audioData = abuffer; // create a reference for control buttons
-  //     source = audioContext.createBufferSource(); // create audio source
-  //     source.buffer = abuffer; // use decoded buffer
-  //     source.connect(audioContext.destination); // create output
-  //     source.loop = true; // takes care of perfect looping
-  //     source.start(); // play...
-  //   }
-
-  //   let check2 = document.getElementById("audio2");
-  //   check2.onclick = () => {
-  //     console.log(source);
-  //     if (source) {
-  //       console.log("123");
-  //       source.stop();
-  //       source = null;
-  //     } else {
-  //       console.log("321");
-  //       playLoop(audioData);
-  //     }
-  //   };
-
-  //   // const audioContext = new AudioContext();
-  //   // let source = audioContext.createBufferSource();
-  //   // let buf;
-  //   // fetch(Sound1) // can be XHR as well
-  //   //   .then((resp) => resp.arrayBuffer())
-  //   //   .then((buf) => audioContext.decodeAudioData(buf)) // can be callback as well
-  //   //   .then((decoded) => {
-  //   //     source.buffer = buf = decoded;
-  //   //     source.loop = true;
-  //   //     source.connect(audioContext.destination);
-  //   //     check.disabled = false;
-  //   //   });
-
-  //   //let check = document.getElementById("check");
-  //   // check.onchange = (e) => {
-  //   //   console.log(e);
-  //   //   if (check.checked) {
-  //   //     source.start(0); // start our bufferSource
-  //   //   } else {
-  //   //     source.stop(0); // this destroys the buffer source
-  //   //     source = audioContext.createBufferSource(); // so we need to create a new one
-  //   //     source.buffer = buf;
-  //   //     source.loop = true;
-  //   //     source.connect(audioContext.destination);
-  //   //   }
-  // }
+  // }, [volume]);
 
   const playBeepBeep = useCallback(() => {
     let audio = new Audio(BeepBeep);
@@ -281,14 +166,14 @@ function App() {
     let secondsLeft = Math.ceil(timeThen - 1 - timeElapsed / 1000);
 
     const intervalId = setInterval(() => {
-      setTimeNow(Date.now());
+      setTimeNow(performance.now());
       if (!timerRunning) {
         return () => clearInterval(intervalId);
       }
 
-      // reset date.now at 1 sec because setInterval delay 1000ms, reset before cycle
+      // reset performance.now at 1 sec because setInterval delay 1000ms, reset before cycle
       if (seconds === 1 && timerRunning) {
-        setAtStart(Date.now());
+        setAtStart(performance.now());
       }
       if (seconds > 0 && timerRunning) {
         setSeconds(secondsLeft);
@@ -305,11 +190,10 @@ function App() {
           setTimeThen(60);
         }
       }
-      console.log("time then: " + timeThen);
-      console.log("milisec: " + timeElapsed / 1000);
-      console.log("seconds: " + seconds);
-      //console.log("seconds left: " + secondsLeft);
-      console.log("\n");
+      // console.log("time then: " + timeThen);
+      // console.log("milisec: " + timeElapsed / 1000);
+      // console.log("seconds: " + seconds);
+      // console.log("\n");
     }, 1000);
 
     return () => clearInterval(intervalId);
@@ -323,30 +207,7 @@ function App() {
     timeThen,
   ]);
 
-  //test old timer
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (!timerRunning) {
-        return () => clearInterval(intervalId);
-      }
-      if (seconds2 > 0 && timerRunning) {
-        setSeconds2(seconds2 - 1);
-      }
-      if (seconds2 === 0) {
-        if (minutes2 === 0) {
-          clearInterval(intervalId);
-          //setStartClicked(false);
-          //playBeepBeep();
-        } else {
-          setMinutes2(minutes2 - 1);
-          setSeconds2(59);
-        }
-      }
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [seconds2, minutes2, timerRunning]);
-
+  // Bar title
   useEffect(() => {
     if (startClickedNum === 0) {
       document.title = "Pomodoro + white noise";
@@ -359,17 +220,16 @@ function App() {
     }
   }, [minutes, seconds, startClickedNum]);
 
-  function handleRestartButton() {
+  const handleRestartButton = () => {
     setMinutes(currentMinute);
     setSeconds(0);
     setTimerRunning(false);
     setStartClicked(false);
-  }
+  };
 
-  function handleTimerRunning() {
-    // fix bug when timer is up we can click start multiple times
+  const handleTimerRunning = () => {
+    // Fixed bug when timer is up we can click start multiple times
     // and notification keeps popping out
-    //handleTimer2();
 
     if (minutes === 0 && seconds === 0) {
       if (isStartClicked === false) {
@@ -388,30 +248,74 @@ function App() {
       setTimeThen(seconds);
     }
 
-    setAtStart(Date.now()); // initialize start time
-    setTimeNow(Date.now()); // set time now because timenow-atstart later so no neg num
-  }
+    setAtStart(performance.now()); // initialize start time
+    setTimeNow(performance.now()); // set time now because timenow-atstart later so no neg num
+  };
 
-  function handleTimerTypeButton(time, index) {
+  const handleTimerTypeButton = (time, index) => {
     setCurrentMinute(time);
     setMinutes(time);
     setSeconds(0);
-    setTimerRunning(true); // not a bug, user can start timer right away when clicking timer type
+    setTimerRunning(false);
     setClickedIndex(index);
-    setStartClicked(true);
-  }
+    setStartClicked(false);
+  };
 
-  function handlePlayer(e) {
+  const handlePlayer = () => {
     setPlayClicked(!isPlayClicked);
-    if (playClickedNum === 0) {
-      //playSound();
-      //initAudio();
-      initSound();
+    if (!isPlayClicked) {
+      playAudio();
+    } else {
+      stopAudio();
     }
-    setPlayClickedNum(playClickedNum + 1);
-    togglePlayer();
-    //startmfker();
-  }
+  };
+
+  const handleVolumeClick = () => {
+    setVolumeClicked(!isVolumeClicked);
+  };
+
+  const handleVolumeChange = (volume) => {
+    setVolume(volume);
+    gainNode.gain.value = volume / 100;
+  };
+
+  const handleNextButton = () => {
+    stopAudio();
+    nextSound();
+    //testCount();
+    //setPlayClicked(!isPlayClicked);
+  };
+
+  const nextSound = () => {
+    if (soundCount === 2) {
+      setSoundCount(0);
+      //setWhiteNoise(sounds[0]);
+      changeSound(sounds[0]);
+    } else {
+      setSoundCount(soundCount + 1);
+      //setWhiteNoise(sounds[soundCount + 1]);
+      changeSound(sounds[soundCount + 1]);
+    }
+  };
+
+  const changeSound = (newSound) => {
+    fetch(newSound)
+      .then((response) => response.arrayBuffer())
+      .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+      .then((audioBuffer) => {
+        const newSource = audioContext.createBufferSource();
+        newSource.buffer = audioBuffer;
+        newSource.loop = true;
+        newSource.connect(gainNode).connect(audioContext.destination);
+        newSource.start(0);
+        source.stop(0);
+        setSource(newSource);
+      });
+  };
+
+  const testCount = () => {
+    setCount(count + 1);
+  };
 
   return (
     <div className="background">
@@ -447,26 +351,29 @@ function App() {
           seconds={seconds}
         />
         <div className="start-restart-container">
+          <MoreButton />
           <StartButton
             className="start-button"
             isStartClicked={isStartClicked}
             onStartClick={handleTimerRunning}
           />
-          <div className="restart-icon">
-            <RestartButton onRestartClick={handleRestartButton} />
-          </div>
+          <RestartButton onRestartClick={handleRestartButton} />
         </div>
         <div className="audio-player">
           {/* <TimerTypeButton name="Scoreboard" index={1} /> */}
-          <MoreButton />
+          <SoundButton onVolumeClick={handleVolumeClick} />
           <PlayButton
             id="audio"
             isPlayClicked={isPlayClicked}
             onPlayClick={handlePlayer}
           />
-          <NextSongButton />
+          <NextSongButton onNextClick={handleNextButton} />
         </div>
-        <Timer minutes={minutes2} seconds={seconds2} />
+        {isVolumeClicked ? (
+          <VolumeSlider onVolumeChange={handleVolumeChange} vol={volume} />
+        ) : (
+          <div style={{ marginTop: "1.25rem" }}>&nbsp;</div>
+        )}
       </div>
 
       <div className="bottom"></div>

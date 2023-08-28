@@ -41,7 +41,8 @@
 }
 
 .audio-player {
-  margin-top: 18px;
+  margin-top: 1.2rem;
+  margin-right: 0.5rem;
 }
 
 .nav-bar {
@@ -54,28 +55,21 @@
   display: flex;
 }
 
-/* .material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
-  color: #ffffff;
-  font-size: 2.2rem;
-  background-color: transparent;
-  border: none;
-}
-
 .settings-icon {
   margin: 0.2rem 0rem;
-} */
-
-.start-restart-container {
-  position: relative;
 }
 
-.restart-icon {
+.start-restart-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* .restart-icon {
   margin: 0.8rem 0.6rem;
   position: absolute;
   top: 0px;
   left: 100%;
-}
+} */
 
 .bottom {
   height: 10vh;

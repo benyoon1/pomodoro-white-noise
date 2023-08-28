@@ -1,18 +1,19 @@
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+.restart-button {
   color: #ffffff;
-  font-size: 2.2rem;
+  width: 2.2rem;
+
   background-color: transparent;
   border: none;
+  margin: 0rem 1.8rem 0rem 1rem;
+  line-height: normal;
+}
+
+.hover-button {
+  font-size: 2.2rem;
   transition: font-size 0.15s ease-in-out 0s;
 }
 
-.material-symbols-outlined:hover {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
-  color: #ffffff;
-  background-color: transparent;
-  border: none;
-  transition: font-size 0.15s ease-in-out 0s;
-  font-size: 2.1rem;
+.hover-button:hover {
+  font-size: 2rem;
   transition: font-size 0.15s ease-in-out 0s;
 }
