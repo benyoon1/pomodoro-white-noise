@@ -280,21 +280,23 @@ function App() {
   };
 
   const handleNextButton = () => {
-    stopAudio();
+    if (isPlayClicked) {
+      stopAudio();
+      setPlayClicked(!isPlayClicked);
+    }
     nextSound();
     //testCount();
-    //setPlayClicked(!isPlayClicked);
   };
 
   const nextSound = () => {
     if (soundCount === 2) {
       setSoundCount(0);
-      //setWhiteNoise(sounds[0]);
-      changeSound(sounds[0]);
+      setWhiteNoise(sounds[0]);
+      //hangeSound(sounds[0]);
     } else {
       setSoundCount(soundCount + 1);
-      //setWhiteNoise(sounds[soundCount + 1]);
-      changeSound(sounds[soundCount + 1]);
+      setWhiteNoise(sounds[soundCount + 1]);
+      //changeSound(sounds[soundCount + 1]);
     }
   };
 
