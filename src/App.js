@@ -10,8 +10,8 @@ import RestartButton from "./components/RestartButton/RestartButton";
 import PlayButton from "./components/AudioPlayerButtons/PlayButton";
 import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
 import Sound1 from "./assets/UnderwaterLoop.wav";
-import Sound2 from "./assets/UnderwaterNoise2.mp3";
-import Sound3 from "./assets/PlaneNoise.mp3";
+import Sound2 from "./assets/UnderwaterNoiseFixed.wav";
+import Sound3 from "./assets/PlaneNoiseFixed.wav";
 //import Sound4 from "./assets/60minNoise.mp3";
 import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
@@ -280,21 +280,23 @@ function App() {
   };
 
   const handleNextButton = () => {
-    stopAudio();
+    if (isPlayClicked) {
+      stopAudio();
+      setPlayClicked(!isPlayClicked);
+    }
     nextSound();
     //testCount();
-    //setPlayClicked(!isPlayClicked);
   };
 
   const nextSound = () => {
     if (soundCount === 2) {
       setSoundCount(0);
-      //setWhiteNoise(sounds[0]);
-      changeSound(sounds[0]);
+      setWhiteNoise(sounds[0]);
+      //hangeSound(sounds[0]);
     } else {
       setSoundCount(soundCount + 1);
-      //setWhiteNoise(sounds[soundCount + 1]);
-      changeSound(sounds[soundCount + 1]);
+      setWhiteNoise(sounds[soundCount + 1]);
+      //changeSound(sounds[soundCount + 1]);
     }
   };
 
