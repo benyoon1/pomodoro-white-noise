@@ -4,7 +4,9 @@ import "./PlayButton.css";
 
 function MoreButton() {
   const onMoreClick = () => {
-    alert("More button clicked");
+    alert(
+      "This button is to show the list of audio tracks. More features coming soon!"
+    );
   };
 
   return (

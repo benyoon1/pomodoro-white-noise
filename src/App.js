@@ -104,7 +104,7 @@ const App = () => {
       theme: "darkblue",
       native: true, // when using native, your OS will handle theming.
     });
-    console.log("notification");
+    //console.log("notification");
   };
 
   useEffect(() => {
