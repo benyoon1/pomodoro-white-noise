@@ -6,7 +6,7 @@ function VolumeSlider({ onVolumeChange, vol }) {
     <Box sx={{ width: 200, marginRight: "11.7rem", marginTop: "0.5rem" }}>
       <Slider
         sx={{
-          color: "#fff",
+          color: "#197F21",
           "&:hover, &.Mui-focusVisible, &.Mui-active": {
             boxShadow: "none",
           },

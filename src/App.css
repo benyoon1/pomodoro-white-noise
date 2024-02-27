@@ -1,76 +1,30 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Flex:opsz,wght@8..144,200&display=swap"); */
-/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Flex:opsz,wght@8..144,200&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700&family=Roboto+Flex:opsz,wght@8..144,200&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700&family=Roboto+Flex:opsz,wght@8..144,200&display=swap"); */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
 
 .background {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url(./img/studio_ghibli_style_background3.jpg);
+}
 
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
+.global-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
 }
 
-.timer-container {
-  color: #ffffff;
-  /* text-align: center;
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%); */
-
-  display: flex; /* establish flex container */
-  flex-direction: column; /* stack flex items vertically */
-  justify-content: center; /* center items vertically, in this case */
-  align-items: center; /* center items horizontally, in this case */
-  /* margin-top: 20vh; */
-  margin-bottom: 5vh;
-}
-
-.button-type-container {
-  /* margin-top: 15vh; */
-  width: 60%;
+.left-div {
   display: flex;
-  justify-content: center;
-  gap: 30px;
+  flex-direction: column;
+  justify-content: space-between;
+  /* margin: 2rem 4rem 15rem 5rem; */
 }
 
-.audio-player {
-  margin-top: 1.2rem;
-  margin-right: 0.5rem;
+.right-div {
+  display: flex;
+  flex-direction: column;
 }
 
 .nav-bar {
   display: flex;
   justify-content: space-between;
   padding: 2.5vh 2vw;
-}
-
-.login-register {
-  display: flex;
-}
-
-.settings-icon {
-  margin: 0.2rem 0rem;
-}
-
-.start-restart-container {
-  display: flex;
-  justify-content: center;
-}
-
-/* .restart-icon {
-  margin: 0.8rem 0.6rem;
-  position: absolute;
-  top: 0px;
-  left: 100%;
-} */
-
-.bottom {
-  height: 10vh;
 }

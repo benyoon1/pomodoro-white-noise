@@ -1,9 +1,5 @@
 .logo {
+  color: var(--main-color);
   font-family: "Montserrat", sans-serif;
-  font-size: 2rem;
-  background-color: transparent;
-  color: #ffffff;
-  white-space: pre-line;
-  font-weight: 200;
-  line-height: 1em;
+  font-size: 3.5rem;
 }
