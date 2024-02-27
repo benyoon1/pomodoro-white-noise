@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import addNotification from "react-push-notification";
+//import addNotification from "react-push-notification";
 import "./App.css";
 import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
@@ -78,7 +78,7 @@ const App = () => {
   const playBeepBeep = useCallback(() => {
     let audio = new Audio(BeepBeep);
     audio.play();
-    pushNotification();
+    //pushNotification();
   }, []);
 
   const timerBar = [
@@ -96,16 +96,16 @@ const App = () => {
     },
   ];
 
-  const pushNotification = () => {
-    addNotification({
-      title: "Pomodoro + white noise",
-      subtitle: "",
-      message: "Timer is up!",
-      theme: "darkblue",
-      native: true, // when using native, your OS will handle theming.
-    });
-    //console.log("notification");
-  };
+  // const pushNotification = () => {
+  //   addNotification({
+  //     title: "Pomodoro + white noise",
+  //     subtitle: "",
+  //     message: "Timer is up!",
+  //     theme: "darkblue",
+  //     native: true, // when using native, your OS will handle theming.
+  //   });
+  //   //console.log("notification");
+  // };
 
   useEffect(() => {
     let timeElapsed = timeNow - atStart;
