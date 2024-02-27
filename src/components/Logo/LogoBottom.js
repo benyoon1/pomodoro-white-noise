@@ -3,7 +3,7 @@ import "./Logo.css";
 import "../global.css";
 
 function Logo({ name }) {
-  return <h1 className="logo">{name}</h1>;
+  return <h2 className="logo-bottom">{name}</h2>;
 }
 
 export default Logo;

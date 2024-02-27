@@ -1,9 +1,8 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,200&display=swap"); */
-
 .timer {
+  color: var(--main-color);
   font-family: "Roboto Flex", sans-serif;
   font-size: 6rem;
   line-height: normal;
-  margin-top: 1.2rem;
-  margin-bottom: 0.8rem;
+  margin-top: 4rem;
+  font-weight: 600;
 }

@@ -1,0 +1,22 @@
+.profile-button {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.5rem;
+  background-color: var(--main-color);
+  border-radius: 50%;
+  border: none;
+  color: #ffffff;
+  white-space: nowrap;
+  font-weight: 800;
+  line-height: normal;
+  width: 3rem;
+  height: 3rem;
+}
+
+.github-button {
+  background-color: transparent;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: none;
+  margin: 0 1.5rem;
+}

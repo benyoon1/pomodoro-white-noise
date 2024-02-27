@@ -1,10 +1,8 @@
 .restart-button {
-  color: #ffffff;
+  color: var(--main-color);
   width: 2.2rem;
-
   background-color: transparent;
   border: none;
-  margin: 0rem 1.8rem 0rem 1rem;
   line-height: normal;
 }
 

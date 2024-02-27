@@ -5,20 +5,21 @@ import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
 import StartButton from "./components/StartButton/StartButton";
 import Logo from "./components/Logo/Logo";
-// import LoginButton from "./components/LoginButton/LoginButton";
+import LogoBottom from "./components/Logo/LogoBottom";
+import ProfileButton from "./components/ProfileButton/ProfileButton";
+import GithubButton from "./components/ProfileButton/GithubButton";
 import RestartButton from "./components/RestartButton/RestartButton";
 import PlayButton from "./components/AudioPlayerButtons/PlayButton";
 import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
 import Sound1 from "./assets/UnderwaterLoop.wav";
 import Sound2 from "./assets/UnderwaterNoiseFixed.wav";
 import Sound3 from "./assets/PlaneNoiseFixed.wav";
-//import Sound4 from "./assets/60minNoise.mp3";
 import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 import SoundButton from "./components/AudioPlayerButtons/SoundButton";
 import VolumeSlider from "./components/AudioPlayerButtons/VolumeSlider";
 
-function App() {
+const App = () => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [minutes, setMinutes] = useState(25);
   const [seconds, setSeconds] = useState(0);
@@ -38,14 +39,13 @@ function App() {
   const [audioContext, setAudioContext] = useState(null);
   const [source, setSource] = useState(null);
   const [gainNode, setGainNode] = useState(null);
-  const [volume, setVolume] = useState(75);
+  const [volume, setVolume] = useState(50);
   const [whiteNoise, setWhiteNoise] = useState(Sound1);
   const sounds = [Sound1, Sound2, Sound3];
   const [soundCount, setSoundCount] = useState(0);
 
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
+  // Temp fix user gesture
+  const playAudio = () => {
     const context = new AudioContext();
     setAudioContext(context);
 
@@ -61,20 +61,12 @@ function App() {
         gainNode.gain.value = volume / 100;
 
         sourceNode.connect(gainNode).connect(context.destination);
+        sourceNode.start(0);
         setSource(sourceNode);
         setGainNode(gainNode);
       });
 
-    console.log(soundCount);
-  }, [whiteNoise, soundCount]);
-
-  const playAudio = () => {
-    const newSource = audioContext.createBufferSource();
-    newSource.buffer = source.buffer;
-    newSource.loop = true;
-    newSource.connect(gainNode).connect(audioContext.destination);
-    newSource.start(0);
-    setSource(newSource);
+    //console.log(soundCount);
   };
 
   const stopAudio = () => {
@@ -82,50 +74,6 @@ function App() {
       source.stop();
     }
   };
-
-  //Webaudio API
-  // const audioContextRef = useRef();
-
-  // const initSound = () => {
-  //   const audioContext = new AudioContext();
-  //   const volumeControl = audioContext.createGain();
-
-  //   volumeControl.gain.setValueAtTime(volume / 100, 0);
-
-  //   let source = audioContext.createBufferSource();
-  //   let buf;
-  //   fetch(Sound1) // can be XHR as well
-  //     .then((resp) => resp.arrayBuffer())
-  //     .then((buf) => audioContext.decodeAudioData(buf)) // can be callback as well
-  //     .then((decoded) => {
-  //       source.buffer = buf = decoded;
-  //       source.loop = true;
-  //     });
-  //   //source.connect(audioContext.destination);
-  //   source.connect(volumeControl);
-  //   volumeControl.connect(audioContext.destination);
-  //   source.start();
-
-  //   // Store context and start suspended
-  //   audioContextRef.current = audioContext;
-  //   audioContext.suspend();
-  // };
-
-  // const togglePlayer = () => {
-  //   if (audioPlaying) {
-  //     audioContextRef.current.suspend();
-  //   } else {
-  //     audioContextRef.current.resume();
-  //   }
-  //   setaudioPlaying((play) => !play);
-  // };
-
-  // useEffect(() => {
-  //   if (audioContextRef.current) {
-  //     audioContextRef.current.gain = volume / 100;
-  //     console.log(volume);
-  //   }
-  // }, [volume]);
 
   const playBeepBeep = useCallback(() => {
     let audio = new Audio(BeepBeep);
@@ -135,15 +83,15 @@ function App() {
 
   const timerBar = [
     {
-      name: "Pomodoro",
+      name: "25",
       time: 25,
     },
     {
-      name: "Short Break",
+      name: "5",
       time: 5,
     },
     {
-      name: "Long Break",
+      name: "10",
       time: 10,
     },
   ];
@@ -156,6 +104,7 @@ function App() {
       theme: "darkblue",
       native: true, // when using native, your OS will handle theming.
     });
+    //console.log("notification");
   };
 
   useEffect(() => {
@@ -275,8 +224,12 @@ function App() {
   };
 
   const handleVolumeChange = (volume) => {
-    setVolume(volume);
-    gainNode.gain.value = volume / 100;
+    if (audioContext === null) {
+      setVolume(volume);
+    } else {
+      setVolume(volume);
+      gainNode.gain.value = volume / 100;
+    }
   };
 
   const handleNextButton = () => {
@@ -285,102 +238,93 @@ function App() {
       setPlayClicked(!isPlayClicked);
     }
     nextSound();
-    //testCount();
   };
 
   const nextSound = () => {
     if (soundCount === 2) {
       setSoundCount(0);
       setWhiteNoise(sounds[0]);
-      //hangeSound(sounds[0]);
     } else {
       setSoundCount(soundCount + 1);
       setWhiteNoise(sounds[soundCount + 1]);
-      //changeSound(sounds[soundCount + 1]);
     }
-  };
-
-  const changeSound = (newSound) => {
-    fetch(newSound)
-      .then((response) => response.arrayBuffer())
-      .then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
-      .then((audioBuffer) => {
-        const newSource = audioContext.createBufferSource();
-        newSource.buffer = audioBuffer;
-        newSource.loop = true;
-        newSource.connect(gainNode).connect(audioContext.destination);
-        newSource.start(0);
-        source.stop(0);
-        setSource(newSource);
-      });
-  };
-
-  const testCount = () => {
-    setCount(count + 1);
   };
 
   return (
     <div className="background">
       <div className="nav-bar">
-        <Logo name={`Pomodoro \n+ white noise`} />
-        <div className="login-register">
-          {/* <div className="settings-icon">
-            <button className="material-symbols-outlined">settings</button>
-          </div> */}
-          {/* <LoginButton name="Login / Register" /> */}
-        </div>
+        <GithubButton />
+        <ProfileButton name={"B"} />
       </div>
+      <div className="global-container">
+        <div className="left-div">
+          <Logo name={`Pomodoro.`} />
+          <LogoBottom name={`and white noise.`} />
+          <Timer
+            timerRunning={timerRunning}
+            minutes={minutes}
+            seconds={seconds}
+          />
+          <div className="left-empty-space">&nbsp;</div>
+          <div className="bottom">
+            Pomodoro timer and white noise player. Designed to save you time.
+            <br />
+            All rights reserved to Ben Yoon.
+          </div>
+        </div>
+        <div className="right-div">
+          <div className="matrix-container">
+            <div className="timer-row">
+              {timerBar.map((value, index) => {
+                return (
+                  <TimerTypeButton
+                    key={index}
+                    name={value.name}
+                    index={index}
+                    clickedIndex={clickedIndex}
+                    onTypeClick={() => {
+                      handleTimerTypeButton(value.time, index);
+                    }}
+                  />
+                );
+              })}
+            </div>
 
-      <div className="timer-container">
-        <div className="button-type-container">
-          {timerBar.map((value, index) => {
-            return (
-              <TimerTypeButton
-                key={index}
-                name={value.name}
-                index={index}
-                clickedIndex={clickedIndex}
-                onTypeClick={() => {
-                  handleTimerTypeButton(value.time, index);
-                }}
+            <div className="start-row">
+              <MoreButton />
+              <StartButton
+                className="start-button"
+                isStartClicked={isStartClicked}
+                onStartClick={handleTimerRunning}
               />
-            );
-          })}
+              <RestartButton onRestartClick={handleRestartButton} />
+            </div>
+            <div>
+              <div className="audio-row">
+                <SoundButton onVolumeClick={handleVolumeClick} />
+                <PlayButton
+                  id="audio"
+                  isPlayClicked={isPlayClicked}
+                  onPlayClick={handlePlayer}
+                />
+                <NextSongButton onNextClick={handleNextButton} />
+              </div>
+              <div className="volume-slider">
+                {isVolumeClicked ? (
+                  <VolumeSlider
+                    onVolumeChange={handleVolumeChange}
+                    vol={volume}
+                  />
+                ) : (
+                  <div>&nbsp;</div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-        <Timer
-          timerRunning={timerRunning}
-          minutes={minutes}
-          seconds={seconds}
-        />
-        <div className="start-restart-container">
-          <MoreButton />
-          <StartButton
-            className="start-button"
-            isStartClicked={isStartClicked}
-            onStartClick={handleTimerRunning}
-          />
-          <RestartButton onRestartClick={handleRestartButton} />
-        </div>
-        <div className="audio-player">
-          {/* <TimerTypeButton name="Scoreboard" index={1} /> */}
-          <SoundButton onVolumeClick={handleVolumeClick} />
-          <PlayButton
-            id="audio"
-            isPlayClicked={isPlayClicked}
-            onPlayClick={handlePlayer}
-          />
-          <NextSongButton onNextClick={handleNextButton} />
-        </div>
-        {isVolumeClicked ? (
-          <VolumeSlider onVolumeChange={handleVolumeChange} vol={volume} />
-        ) : (
-          <div style={{ marginTop: "1.25rem" }}>&nbsp;</div>
-        )}
       </div>
-
-      <div className="bottom"></div>
     </div>
   );
-}
+};
 
 export default App;

@@ -1,13 +1,19 @@
 import React from "react";
 import { IoEllipsisHorizontal } from "react-icons/io5";
-import "./MoreButton.css";
+import "./PlayButton.css";
 
-function SoundButton({ onRestartClick }) {
+function MoreButton() {
+  const onMoreClick = () => {
+    alert(
+      "This button is to show the list of audio tracks. More features coming soon!"
+    );
+  };
+
   return (
-    <button className="more-button" onClick={onRestartClick}>
+    <button className="more-button" onClick={onMoreClick}>
       <IoEllipsisHorizontal className={"hover-button"} />
     </button>
   );
 }
 
-export default SoundButton;
+export default MoreButton;
