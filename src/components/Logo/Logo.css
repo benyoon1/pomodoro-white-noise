@@ -1,5 +1,19 @@
 .logo {
   color: var(--main-color);
   font-family: "Montserrat", sans-serif;
-  font-size: 3.5rem;
+  font-size: 5rem;
+  font-weight: 900;
+}
+
+.logo-bottom {
+  color: var(--main-color);
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-left: 1rem;
+}
+
+h1,
+h2 {
+  margin-bottom: 0;
 }

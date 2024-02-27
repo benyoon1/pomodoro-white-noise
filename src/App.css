@@ -1,9 +1,4 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700&family=Roboto+Flex:opsz,wght@8..144,200&display=swap"); */
-
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
-
-.background {
-}
 
 .global-container {
   display: flex;
@@ -11,20 +6,66 @@
   justify-content: space-between;
 }
 
+.nav-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2.5rem 2.5rem 3vh;
+}
+
+.white-noise-logo {
+  font-size: 1rem;
+}
+
+.bottom {
+  color: var(--main-color);
+  white-space: nowrap;
+}
+
 .left-div {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* margin: 2rem 4rem 15rem 5rem; */
+  margin: 3vh 7rem;
+}
+
+.left-empty-space {
+  margin: 15vh 0;
 }
 
 .right-div {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin-right: 25rem;
 }
 
-.nav-bar {
+.matrix-container {
   display: flex;
+  flex-direction: column;
+  width: 18rem;
+  height: 18rem;
+}
+
+.timer-row {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  padding: 2.5vh 2vw;
+}
+
+.start-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 4rem 0;
+}
+
+.audio-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.volume-slider {
+  position: relative;
+  left: -5.5rem;
 }

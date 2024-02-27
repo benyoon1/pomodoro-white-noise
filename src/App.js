@@ -5,6 +5,9 @@ import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
 import StartButton from "./components/StartButton/StartButton";
 import Logo from "./components/Logo/Logo";
+import LogoBottom from "./components/Logo/LogoBottom";
+import ProfileButton from "./components/ProfileButton/ProfileButton";
+import GithubButton from "./components/ProfileButton/GithubButton";
 import RestartButton from "./components/RestartButton/RestartButton";
 import PlayButton from "./components/AudioPlayerButtons/PlayButton";
 import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
@@ -36,7 +39,7 @@ const App = () => {
   const [audioContext, setAudioContext] = useState(null);
   const [source, setSource] = useState(null);
   const [gainNode, setGainNode] = useState(null);
-  const [volume, setVolume] = useState(75);
+  const [volume, setVolume] = useState(50);
   const [whiteNoise, setWhiteNoise] = useState(Sound1);
   const sounds = [Sound1, Sound2, Sound3];
   const [soundCount, setSoundCount] = useState(0);
@@ -221,8 +224,12 @@ const App = () => {
   };
 
   const handleVolumeChange = (volume) => {
-    setVolume(volume);
-    gainNode.gain.value = volume / 100;
+    if (audioContext === null) {
+      setVolume(volume);
+    } else {
+      setVolume(volume);
+      gainNode.gain.value = volume / 100;
+    }
   };
 
   const handleNextButton = () => {
@@ -231,45 +238,43 @@ const App = () => {
       setPlayClicked(!isPlayClicked);
     }
     nextSound();
-    //testCount();
   };
 
   const nextSound = () => {
     if (soundCount === 2) {
       setSoundCount(0);
       setWhiteNoise(sounds[0]);
-      //hangeSound(sounds[0]);
     } else {
       setSoundCount(soundCount + 1);
       setWhiteNoise(sounds[soundCount + 1]);
-      //changeSound(sounds[soundCount + 1]);
     }
   };
 
   return (
     <div className="background">
       <div className="nav-bar">
-        <div className="linkedin-button">B</div>
+        <GithubButton />
+        <ProfileButton name={"B"} />
       </div>
       <div className="global-container">
         <div className="left-div">
           <Logo name={`Pomodoro.`} />
-          <Logo name={`and white noise.`} />
+          <LogoBottom name={`and white noise.`} />
           <Timer
             timerRunning={timerRunning}
             minutes={minutes}
             seconds={seconds}
           />
-          <div>&nbsp;</div>
+          <div className="left-empty-space">&nbsp;</div>
           <div className="bottom">
             Pomodoro timer and white noise player. Designed to save you time.
-            All rights reserved to Bin Yoon.
+            <br />
+            All rights reserved to Ben Yoon.
           </div>
         </div>
         <div className="right-div">
-          <div>&nbsp;</div>
           <div className="matrix-container">
-            <div className="">
+            <div className="timer-row">
               {timerBar.map((value, index) => {
                 return (
                   <TimerTypeButton
@@ -285,7 +290,7 @@ const App = () => {
               })}
             </div>
 
-            <div className="">
+            <div className="start-row">
               <MoreButton />
               <StartButton
                 className="start-button"
@@ -294,22 +299,28 @@ const App = () => {
               />
               <RestartButton onRestartClick={handleRestartButton} />
             </div>
-            <div className="">
-              <SoundButton onVolumeClick={handleVolumeClick} />
-              <PlayButton
-                id="audio"
-                isPlayClicked={isPlayClicked}
-                onPlayClick={handlePlayer}
-              />
-              <NextSongButton onNextClick={handleNextButton} />
+            <div>
+              <div className="audio-row">
+                <SoundButton onVolumeClick={handleVolumeClick} />
+                <PlayButton
+                  id="audio"
+                  isPlayClicked={isPlayClicked}
+                  onPlayClick={handlePlayer}
+                />
+                <NextSongButton onNextClick={handleNextButton} />
+              </div>
+              <div className="volume-slider">
+                {isVolumeClicked ? (
+                  <VolumeSlider
+                    onVolumeChange={handleVolumeChange}
+                    vol={volume}
+                  />
+                ) : (
+                  <div>&nbsp;</div>
+                )}
+              </div>
             </div>
-            {isVolumeClicked ? (
-              <VolumeSlider onVolumeChange={handleVolumeChange} vol={volume} />
-            ) : (
-              <div>&nbsp;</div>
-            )}
           </div>
-          <div>&nbsp;</div>
         </div>
       </div>
     </div>
