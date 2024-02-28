@@ -14,6 +14,7 @@ import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
 import Sound1 from "./assets/UnderwaterLoop.wav";
 import Sound2 from "./assets/UnderwaterNoiseFixed.wav";
 import Sound3 from "./assets/PlaneNoiseFixed.wav";
+import SilentSound from "./assets/15-seconds-of-silence.mp3";
 import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 import SoundButton from "./components/AudioPlayerButtons/SoundButton";
@@ -63,8 +64,6 @@ const App = () => {
         setSource(sourceNode);
         setGainNode(gainNode);
       });
-
-    //console.log(soundCount);
   };
 
   const stopAudio = () => {
@@ -168,12 +167,34 @@ const App = () => {
 
   const handlePlayer = () => {
     setPlayClicked(!isPlayClicked);
+    const audioElement = document.getElementById("myAudio");
+
     if (!isPlayClicked) {
+      audioElement.play();
       playAudio();
     } else {
       stopAudio();
+      audioElement.pause();
     }
   };
+
+  if ("mediaSession" in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: "Pomodoro and white noise.",
+    });
+
+    navigator.mediaSession.setActionHandler("play", function () {
+      handlePlayer();
+    });
+
+    navigator.mediaSession.setActionHandler("pause", function () {
+      handlePlayer();
+    });
+
+    navigator.mediaSession.setActionHandler("nexttrack", function () {
+      handleNextButton();
+    });
+  }
 
   const handleVolumeClick = () => {
     setVolumeClicked(!isVolumeClicked);
@@ -274,7 +295,11 @@ const App = () => {
                 ) : (
                   <div>&nbsp;</div>
                 )}
-                <div></div>
+                <div>
+                  <audio id="myAudio" loop>
+                    <source src={SilentSound} type="audio/mpeg" />
+                  </audio>
+                </div>
               </div>
             </div>
           </div>
