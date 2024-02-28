@@ -19,6 +19,8 @@ import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 import SoundButton from "./components/AudioPlayerButtons/SoundButton";
 import VolumeSlider from "./components/AudioPlayerButtons/VolumeSlider";
 
+import { clearInterval, setInterval } from "worker-timers";
+
 const App = () => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [minutes, setMinutes] = useState(25);
@@ -30,10 +32,6 @@ const App = () => {
   const [isPlayClicked, setPlayClicked] = useState(false);
   const [isVolumeClicked, setVolumeClicked] = useState(false);
   const [startClickedNum, setStartClickedNum] = useState(0);
-
-  const [atStart, setAtStart] = useState(0);
-  const [timeNow, setTimeNow] = useState(0);
-  const [timeThen, setTimeThen] = useState(0);
 
   // Volume Slider
   const [audioContext, setAudioContext] = useState(null);
@@ -96,36 +94,14 @@ const App = () => {
     },
   ];
 
-  // const pushNotification = () => {
-  //   addNotification({
-  //     title: "Pomodoro + white noise",
-  //     subtitle: "",
-  //     message: "Timer is up!",
-  //     theme: "darkblue",
-  //     native: true, // when using native, your OS will handle theming.
-  //   });
-  //   //console.log("notification");
-  // };
-
   useEffect(() => {
-    let timeElapsed = timeNow - atStart;
-
-    // timeThen - 1 because setInterval has 1000ms delay on first iteration
-    // and timeElapsed on that timing is 0, which does not change value
-    let secondsLeft = Math.ceil(timeThen - 1 - timeElapsed / 1000);
-
     const intervalId = setInterval(() => {
-      setTimeNow(performance.now());
       if (!timerRunning) {
         return () => clearInterval(intervalId);
       }
 
-      // reset performance.now at 1 sec because setInterval delay 1000ms, reset before cycle
-      if (seconds === 1 && timerRunning) {
-        setAtStart(performance.now());
-      }
       if (seconds > 0 && timerRunning) {
-        setSeconds(secondsLeft);
+        setSeconds(seconds - 1);
       }
       if (seconds === 0) {
         if (minutes === 0) {
@@ -136,25 +112,12 @@ const App = () => {
         } else {
           setMinutes(minutes - 1);
           setSeconds(59);
-          setTimeThen(60);
         }
       }
-      // console.log("time then: " + timeThen);
-      // console.log("milisec: " + timeElapsed / 1000);
-      // console.log("seconds: " + seconds);
-      // console.log("\n");
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [
-    seconds,
-    minutes,
-    timerRunning,
-    playBeepBeep,
-    atStart,
-    timeNow,
-    timeThen,
-  ]);
+  }, [seconds, minutes, timerRunning, playBeepBeep]);
 
   // Bar title
   useEffect(() => {
@@ -192,13 +155,6 @@ const App = () => {
       setStartClicked(!isStartClicked);
       setStartClickedNum(startClickedNum + 1);
     }
-
-    if (!timerRunning) {
-      setTimeThen(seconds);
-    }
-
-    setAtStart(performance.now()); // initialize start time
-    setTimeNow(performance.now()); // set time now because timenow-atstart later so no neg num
   };
 
   const handleTimerTypeButton = (time, index) => {
@@ -268,8 +224,7 @@ const App = () => {
           <div className="left-empty-space">&nbsp;</div>
           <div className="bottom">
             Pomodoro timer and white noise player. Designed to save you time.
-            <br />
-            All rights reserved to Ben Yoon.
+            <br />© 2024 Ben Yoon. All rights reserved.
           </div>
         </div>
         <div className="right-div">
@@ -303,10 +258,11 @@ const App = () => {
               <div className="audio-row">
                 <SoundButton onVolumeClick={handleVolumeClick} />
                 <PlayButton
-                  id="audio"
+                  alt="audio"
                   isPlayClicked={isPlayClicked}
                   onPlayClick={handlePlayer}
                 />
+
                 <NextSongButton onNextClick={handleNextButton} />
               </div>
               <div className="volume-slider">
@@ -318,6 +274,7 @@ const App = () => {
                 ) : (
                   <div>&nbsp;</div>
                 )}
+                <div></div>
               </div>
             </div>
           </div>
