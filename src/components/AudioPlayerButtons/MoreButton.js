@@ -6,18 +6,19 @@ import "./MoreButton.css";
 function MoreButton({ onAudioSelected }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     let timer;
-    if (isOpen) {
+    if (isOpen && !isHovering) {
       timer = setTimeout(() => {
         setIsOpen(false);
-      }, 5000); // 5000ms = 5s
+      }, 2000);
     }
     return () => {
       clearTimeout(timer);
     };
-  }, [isOpen]);
+  }, [isOpen, isHovering]);
 
   return (
     <div className="more-button">
@@ -25,7 +26,11 @@ function MoreButton({ onAudioSelected }) {
         <button onClick={toggleDropdown} className="dropbtn">
           <IoEllipsisHorizontal className={"hover-button"} />
         </button>
-        <div className={`dropdown-content ${isOpen ? "show" : ""}`}>
+        <div
+          className={`dropdown-content ${isOpen ? "show" : ""}`}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
           <div>Audio Tracks</div>
           <button onClick={() => onAudioSelected(0)}>Under Water</button>
           <button onClick={() => onAudioSelected(1)}>Airplane</button>

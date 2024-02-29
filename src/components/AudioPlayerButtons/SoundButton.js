@@ -1,11 +1,25 @@
 import React from "react";
-import { IoVolumeMediumSharp } from "react-icons/io5";
+import { IoVolumeMediumSharp, IoVolumeMuteSharp } from "react-icons/io5";
 import "./PlayButton.css";
 
-function SoundButton({ onVolumeClick }) {
+function SoundButton({
+  isVolumeClicked,
+  onVolumeClick,
+  onMouseEnter,
+  onMouseLeave,
+}) {
   return (
-    <button className="play-button" onClick={onVolumeClick}>
-      <IoVolumeMediumSharp className={"hover-button"} />
+    <button
+      className="sound-button"
+      onClick={onVolumeClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {isVolumeClicked ? (
+        <IoVolumeMuteSharp className={"hover-button"} />
+      ) : (
+        <IoVolumeMediumSharp className={"hover-button"} />
+      )}
     </button>
   );
 }

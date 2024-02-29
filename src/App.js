@@ -19,7 +19,6 @@ import NextSongButton from "./components/AudioPlayerButtons/NextSongButton";
 import MoreButton from "./components/AudioPlayerButtons/MoreButton";
 import SoundButton from "./components/AudioPlayerButtons/SoundButton";
 import VolumeSlider from "./components/AudioPlayerButtons/VolumeSlider";
-
 import { clearInterval, setInterval } from "worker-timers";
 
 const App = () => {
@@ -32,13 +31,15 @@ const App = () => {
   const [isStartClicked, setStartClicked] = useState(false);
   const [isPlayClicked, setPlayClicked] = useState(false);
   const [isVolumeClicked, setVolumeClicked] = useState(false);
+  const [isVolumeHovered, setVolumeHovered] = useState(false);
+  const [savedVolume, setSavedVolume] = useState(50);
   const [startClickedNum, setStartClickedNum] = useState(0);
 
   // Volume Slider
   const [audioContext, setAudioContext] = useState(null);
   const [source, setSource] = useState(null);
   const [gainNode, setGainNode] = useState(null);
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(70);
   const [whiteNoise, setWhiteNoise] = useState(Sound1);
   const sounds = [Sound1, Sound2, Sound3];
   const [soundCount, setSoundCount] = useState(0);
@@ -57,7 +58,12 @@ const App = () => {
         sourceNode.loop = true;
 
         const gainNode = context.createGain();
-        gainNode.gain.value = volume / 100;
+        const fadeDuration = 1;
+        gainNode.gain.setValueAtTime(0, context.currentTime);
+        gainNode.gain.linearRampToValueAtTime(
+          volume / 100,
+          context.currentTime + fadeDuration
+        );
 
         sourceNode.connect(gainNode).connect(context.destination);
         sourceNode.start(0);
@@ -67,8 +73,23 @@ const App = () => {
   };
 
   const stopAudio = () => {
-    if (source) {
-      source.stop();
+    if (source && gainNode && audioContext) {
+      // Set the current gain value immediately to ensure a smooth transition
+      const currentTime = audioContext.currentTime;
+      gainNode.gain.setValueAtTime(gainNode.gain.value, currentTime);
+
+      // Duration of the fade out in seconds
+      const fadeDuration = 0.25;
+
+      // Schedule the fade to 0
+      gainNode.gain.linearRampToValueAtTime(0, currentTime + fadeDuration);
+
+      // Stop the source after the fade duration
+      // You must use `setTimeout` because `source.stop` does not accept a time parameter beyond which to stop
+      setTimeout(() => {
+        source.stop();
+        // Reset or handle post-stop logic here if needed
+      }, fadeDuration * 1000); // Convert seconds to milliseconds
     }
   };
 
@@ -104,8 +125,9 @@ const App = () => {
       }
       if (seconds === 0) {
         if (minutes === 0) {
-          clearInterval(intervalId);
+          //clearInterval(intervalId);
           setStartClicked(false);
+          handleAudioPlayer();
           playBeepBeep();
           setTimerRunning(false);
         } else {
@@ -154,7 +176,11 @@ const App = () => {
       setStartClickedNum(startClickedNum + 1);
     }
 
-    handleAudioPlayer();
+    if (!isStartClicked && !isPlayClicked) {
+      handleAudioPlayer();
+    } else if (isStartClicked && isPlayClicked) {
+      handleAudioPlayer();
+    }
   };
 
   const handleTimerTypeButton = (time, index) => {
@@ -199,13 +225,22 @@ const App = () => {
   }
 
   const handleVolumeClick = () => {
-    setVolumeClicked(!isVolumeClicked);
+    if (!isVolumeClicked) {
+      setSavedVolume(volume);
+      handleVolumeChange(0);
+      setVolumeClicked(!isVolumeClicked);
+    } else {
+      handleVolumeChange(savedVolume);
+      setVolumeClicked(!isVolumeClicked);
+    }
   };
 
   const handleVolumeChange = (volume) => {
     if (audioContext === null) {
       setVolume(volume);
+      setVolumeClicked(false);
     } else {
+      setVolumeClicked(false);
       setVolume(volume);
       gainNode.gain.value = volume / 100;
     }
@@ -214,9 +249,15 @@ const App = () => {
   const handleNextButton = () => {
     if (isPlayClicked) {
       stopAudio();
-      setPlayClicked(!isPlayClicked);
+      //setPlayClicked(!isPlayClicked);
+      nextSound();
+
+      setTimeout(() => {
+        playAudio();
+      }, 750);
+    } else {
+      nextSound();
     }
-    nextSound();
   };
 
   const nextSound = () => {
@@ -284,7 +325,12 @@ const App = () => {
             </div>
             <div>
               <div className="audio-row">
-                <SoundButton onVolumeClick={handleVolumeClick} />
+                <SoundButton
+                  onVolumeClick={handleVolumeClick}
+                  isVolumeClicked={isVolumeClicked}
+                  onMouseEnter={() => setVolumeHovered(true)}
+                  onMouseLeave={() => setVolumeHovered(false)}
+                />
                 <PlayButton
                   alt="audio"
                   isPlayClicked={isPlayClicked}
@@ -294,10 +340,12 @@ const App = () => {
                 <NextSongButton onNextClick={handleNextButton} />
               </div>
               <div className="volume-slider">
-                {isVolumeClicked ? (
+                {isVolumeHovered ? (
                   <VolumeSlider
                     onVolumeChange={handleVolumeChange}
                     vol={volume}
+                    onMouseEnter={() => setVolumeHovered(true)}
+                    onMouseLeave={() => setVolumeHovered(false)}
                   />
                 ) : (
                   <div>&nbsp;</div>

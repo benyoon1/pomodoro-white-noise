@@ -1,5 +1,6 @@
 .play-button,
-.more-button {
+.more-button,
+.sound-button {
   color: var(--main-color);
   width: 2.2rem;
   height: 2.2rem;
@@ -7,6 +8,10 @@
   border: none;
   line-height: normal;
 }
+
+/* .sound-button {
+  height: 5rem;
+} */
 
 .more-button {
   padding-top: 0.5rem;
