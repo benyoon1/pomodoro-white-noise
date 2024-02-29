@@ -138,10 +138,9 @@ const App = () => {
     setStartClicked(false);
   };
 
-  const handleTimerRunning = () => {
+  const handleStartTimer = () => {
     // Fixed bug when timer is up we can click start multiple times
     // and notification keeps popping out
-
     if (minutes === 0 && seconds === 0) {
       if (isStartClicked === false) {
         setMinutes(currentMinute);
@@ -154,6 +153,8 @@ const App = () => {
       setStartClicked(!isStartClicked);
       setStartClickedNum(startClickedNum + 1);
     }
+
+    handleAudioPlayer();
   };
 
   const handleTimerTypeButton = (time, index) => {
@@ -165,7 +166,7 @@ const App = () => {
     setStartClicked(false);
   };
 
-  const handlePlayer = () => {
+  const handleAudioPlayer = () => {
     setPlayClicked(!isPlayClicked);
     const audioElement = document.getElementById("myAudio");
 
@@ -178,17 +179,18 @@ const App = () => {
     }
   };
 
+  // Media Session API
   if ("mediaSession" in navigator) {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: "Pomodoro and white noise.",
     });
 
     navigator.mediaSession.setActionHandler("play", function () {
-      handlePlayer();
+      handleAudioPlayer();
     });
 
     navigator.mediaSession.setActionHandler("pause", function () {
-      handlePlayer();
+      handleAudioPlayer();
     });
 
     navigator.mediaSession.setActionHandler("nexttrack", function () {
@@ -225,6 +227,10 @@ const App = () => {
       setSoundCount(soundCount + 1);
       setWhiteNoise(sounds[soundCount + 1]);
     }
+  };
+
+  const handleAudioSelection = (sound) => {
+    setWhiteNoise(sounds[sound]);
   };
 
   return (
@@ -267,11 +273,12 @@ const App = () => {
             </div>
 
             <div className="start-row">
-              <MoreButton />
+              <MoreButton onAudioSelected={handleAudioSelection} />
+
               <StartButton
                 className="start-button"
                 isStartClicked={isStartClicked}
-                onStartClick={handleTimerRunning}
+                onStartClick={handleStartTimer}
               />
               <RestartButton onRestartClick={handleRestartButton} />
             </div>
@@ -281,7 +288,7 @@ const App = () => {
                 <PlayButton
                   alt="audio"
                   isPlayClicked={isPlayClicked}
-                  onPlayClick={handlePlayer}
+                  onPlayClick={handleAudioPlayer}
                 />
 
                 <NextSongButton onNextClick={handleNextButton} />
