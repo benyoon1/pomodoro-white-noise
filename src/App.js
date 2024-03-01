@@ -253,7 +253,6 @@ const App = () => {
     if (isPlayClicked) {
       stopAudio();
       nextSound();
-      //setNextTriggered(!nextTriggered);
       if (soundCount === 2) {
         setSoundCount(0);
         playAudio(sounds[0]);
@@ -277,6 +276,17 @@ const App = () => {
 
   const handleAudioSelection = (sound) => {
     setWhiteNoise(sounds[sound]);
+    setSoundCount(sound);
+    if (isPlayClicked) {
+      if (sound === soundCount) {
+        return;
+      }
+      stopAudio();
+      playAudio(sounds[sound]);
+    } else {
+      playAudio(sounds[sound]);
+      setPlayClicked(true);
+    }
   };
 
   return (

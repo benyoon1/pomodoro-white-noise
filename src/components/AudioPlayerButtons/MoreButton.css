@@ -42,7 +42,7 @@
 
 /* Dropdown Item Hover */
 .dropdown-content button:hover {
-  background-color: #f1f1f1;
+  background-color: #dedede;
 }
 
 /* Animation */
@@ -66,4 +66,9 @@
   text-align: left;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+}
+
+.dropdown-content .selected {
+  background-color: #dedede; /* for example */
+  color: black;
 }

@@ -7,6 +7,7 @@ function MoreButton({ onAudioSelected }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
   const [isHovering, setIsHovering] = useState(false);
+  const [selectedButton, setSelectedButton] = useState(0);
 
   useEffect(() => {
     let timer;
@@ -32,9 +33,33 @@ function MoreButton({ onAudioSelected }) {
           onMouseLeave={() => setIsHovering(false)}
         >
           <div>Audio Tracks</div>
-          <button onClick={() => onAudioSelected(0)}>Under Water</button>
-          <button onClick={() => onAudioSelected(1)}>Airplane</button>
-          <button onClick={() => onAudioSelected(2)}>Vent</button>
+          <button
+            className={selectedButton === 0 ? "selected" : ""}
+            onClick={() => {
+              onAudioSelected(0);
+              setSelectedButton(0);
+            }}
+          >
+            Under Water
+          </button>
+          <button
+            className={selectedButton === 1 ? "selected" : ""}
+            onClick={() => {
+              onAudioSelected(1);
+              setSelectedButton(1);
+            }}
+          >
+            Airplane
+          </button>
+          <button
+            className={selectedButton === 2 ? "selected" : ""}
+            onClick={() => {
+              onAudioSelected(2);
+              setSelectedButton(2);
+            }}
+          >
+            Vent
+          </button>
         </div>
       </div>
     </div>
