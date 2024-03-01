@@ -44,35 +44,38 @@ const App = () => {
   const sounds = [Sound1, Sound2, Sound3];
   const [soundCount, setSoundCount] = useState(0);
 
-  // Temp fix user gesture
-  const playAudio = () => {
-    const context = new AudioContext();
-    setAudioContext(context);
+  // Audio Player
+  const playAudio = useCallback(
+    (sound) => {
+      const context = new AudioContext();
+      setAudioContext(context);
 
-    fetch(whiteNoise)
-      .then((response) => response.arrayBuffer())
-      .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
-      .then((audioBuffer) => {
-        const sourceNode = context.createBufferSource();
-        sourceNode.buffer = audioBuffer;
-        sourceNode.loop = true;
+      fetch(sound)
+        .then((response) => response.arrayBuffer())
+        .then((arrayBuffer) => context.decodeAudioData(arrayBuffer))
+        .then((audioBuffer) => {
+          const sourceNode = context.createBufferSource();
+          sourceNode.buffer = audioBuffer;
+          sourceNode.loop = true;
 
-        const gainNode = context.createGain();
-        const fadeDuration = 1;
-        gainNode.gain.setValueAtTime(0, context.currentTime);
-        gainNode.gain.linearRampToValueAtTime(
-          volume / 100,
-          context.currentTime + fadeDuration
-        );
+          const gainNode = context.createGain();
+          const fadeDuration = 1;
+          gainNode.gain.setValueAtTime(0, context.currentTime);
+          gainNode.gain.linearRampToValueAtTime(
+            volume / 100,
+            context.currentTime + fadeDuration
+          );
 
-        sourceNode.connect(gainNode).connect(context.destination);
-        sourceNode.start(0);
-        setSource(sourceNode);
-        setGainNode(gainNode);
-      });
-  };
+          sourceNode.connect(gainNode).connect(context.destination);
+          sourceNode.start(0);
+          setSource(sourceNode);
+          setGainNode(gainNode);
+        });
+    },
+    [volume]
+  );
 
-  const stopAudio = () => {
+  const stopAudio = useCallback(() => {
     if (source && gainNode && audioContext) {
       // Set the current gain value immediately to ensure a smooth transition
       const currentTime = audioContext.currentTime;
@@ -91,7 +94,7 @@ const App = () => {
         // Reset or handle post-stop logic here if needed
       }, fadeDuration * 1000); // Convert seconds to milliseconds
     }
-  };
+  }, [audioContext, gainNode, source]);
 
   const playBeepBeep = useCallback(() => {
     let audio = new Audio(BeepBeep);
@@ -113,6 +116,19 @@ const App = () => {
       time: 10,
     },
   ];
+
+  const handleAudioPlayer = useCallback(() => {
+    setPlayClicked(!isPlayClicked);
+    const audioElement = document.getElementById("myAudio");
+
+    if (!isPlayClicked) {
+      audioElement.play();
+      playAudio(whiteNoise);
+    } else {
+      stopAudio();
+      audioElement.pause();
+    }
+  }, [isPlayClicked, playAudio, stopAudio, whiteNoise]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -138,7 +154,7 @@ const App = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [seconds, minutes, timerRunning, playBeepBeep]);
+  }, [seconds, minutes, timerRunning, playBeepBeep, handleAudioPlayer]);
 
   // Bar title
   useEffect(() => {
@@ -192,19 +208,6 @@ const App = () => {
     setStartClicked(false);
   };
 
-  const handleAudioPlayer = () => {
-    setPlayClicked(!isPlayClicked);
-    const audioElement = document.getElementById("myAudio");
-
-    if (!isPlayClicked) {
-      audioElement.play();
-      playAudio();
-    } else {
-      stopAudio();
-      audioElement.pause();
-    }
-  };
-
   // Media Session API
   if ("mediaSession" in navigator) {
     navigator.mediaSession.metadata = new MediaMetadata({
@@ -249,12 +252,14 @@ const App = () => {
   const handleNextButton = () => {
     if (isPlayClicked) {
       stopAudio();
-      //setPlayClicked(!isPlayClicked);
       nextSound();
-
-      setTimeout(() => {
-        playAudio();
-      }, 750);
+      //setNextTriggered(!nextTriggered);
+      if (soundCount === 2) {
+        setSoundCount(0);
+        playAudio(sounds[0]);
+      } else {
+        playAudio(sounds[soundCount + 1]);
+      }
     } else {
       nextSound();
     }
