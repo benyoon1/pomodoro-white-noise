@@ -59,7 +59,7 @@ const App = () => {
           sourceNode.loop = true;
 
           const gainNode = context.createGain();
-          const fadeDuration = 1;
+          const fadeDuration = 0.6;
           gainNode.gain.setValueAtTime(0, context.currentTime);
           gainNode.gain.linearRampToValueAtTime(
             volume / 100,
@@ -143,7 +143,7 @@ const App = () => {
         if (minutes === 0) {
           //clearInterval(intervalId);
           setStartClicked(false);
-          handleAudioPlayer();
+          stopAudio();
           playBeepBeep();
           setTimerRunning(false);
         } else {
