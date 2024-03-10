@@ -71,8 +71,10 @@ const App = () => {
           setSource(sourceNode);
           setGainNode(gainNode);
         });
+
+      setPlayClicked(true);
     },
-    [volume]
+    [volume, isPlayClicked]
   );
 
   const stopAudio = useCallback(() => {
@@ -92,9 +94,11 @@ const App = () => {
       setTimeout(() => {
         source.stop();
         // Reset or handle post-stop logic here if needed
-      }, fadeDuration * 1000); // Convert seconds to milliseconds
+      }, fadeDuration * 1000);
+
+      setPlayClicked(false);
     }
-  }, [audioContext, gainNode, source]);
+  }, [audioContext, gainNode, source, isPlayClicked]);
 
   const playBeepBeep = useCallback(() => {
     let audio = new Audio(BeepBeep);
@@ -118,7 +122,6 @@ const App = () => {
   ];
 
   const handleAudioPlayer = useCallback(() => {
-    setPlayClicked(!isPlayClicked);
     const audioElement = document.getElementById("myAudio");
 
     if (!isPlayClicked) {
@@ -154,7 +157,15 @@ const App = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [seconds, minutes, timerRunning, playBeepBeep, handleAudioPlayer]);
+  }, [
+    seconds,
+    minutes,
+    timerRunning,
+    playBeepBeep,
+    handleAudioPlayer,
+    stopAudio,
+    isPlayClicked,
+  ]);
 
   // Bar title
   useEffect(() => {
