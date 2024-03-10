@@ -74,7 +74,7 @@ const App = () => {
 
       setPlayClicked(true);
     },
-    [volume, isPlayClicked]
+    [volume]
   );
 
   const stopAudio = useCallback(() => {
@@ -98,7 +98,7 @@ const App = () => {
 
       setPlayClicked(false);
     }
-  }, [audioContext, gainNode, source, isPlayClicked]);
+  }, [audioContext, gainNode, source]);
 
   const playBeepBeep = useCallback(() => {
     let audio = new Audio(BeepBeep);
