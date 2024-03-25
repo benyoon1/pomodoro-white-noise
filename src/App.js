@@ -153,7 +153,7 @@ const App = () => {
           setSeconds(59);
         }
       }
-    }, 10);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, [
