@@ -43,7 +43,6 @@ const App = () => {
   const [whiteNoise, setWhiteNoise] = useState(Sound1);
   const sounds = [Sound1, Sound2, Sound3];
   const [soundCount, setSoundCount] = useState(0);
-  const audioElement = document.getElementById("myAudio");
 
   // Audio Player
   const playAudio = useCallback(
@@ -123,6 +122,7 @@ const App = () => {
   ];
 
   const handleAudioPlayer = useCallback(() => {
+    const audioElement = document.getElementById("myAudio");
     if (!isPlayClicked) {
       audioElement.play();
       playAudio(whiteNoise);
@@ -130,7 +130,7 @@ const App = () => {
       stopAudio();
       audioElement.pause();
     }
-  }, [isPlayClicked, playAudio, stopAudio, whiteNoise, audioElement]);
+  }, [isPlayClicked, playAudio, stopAudio, whiteNoise]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -223,6 +223,8 @@ const App = () => {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: "Pomodoro and white noise.",
     });
+
+    const audioElement = document.getElementById("myAudio");
 
     navigator.mediaSession.setActionHandler("play", function () {
       //handleAudioPlayer();
