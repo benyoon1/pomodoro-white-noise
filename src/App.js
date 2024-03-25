@@ -43,6 +43,7 @@ const App = () => {
   const [whiteNoise, setWhiteNoise] = useState(Sound1);
   const sounds = [Sound1, Sound2, Sound3];
   const [soundCount, setSoundCount] = useState(0);
+  const audioElement = document.getElementById("myAudio");
 
   // Audio Player
   const playAudio = useCallback(
@@ -122,8 +123,6 @@ const App = () => {
   ];
 
   const handleAudioPlayer = useCallback(() => {
-    const audioElement = document.getElementById("myAudio");
-
     if (!isPlayClicked) {
       audioElement.play();
       playAudio(whiteNoise);
@@ -131,7 +130,7 @@ const App = () => {
       stopAudio();
       audioElement.pause();
     }
-  }, [isPlayClicked, playAudio, stopAudio, whiteNoise]);
+  }, [isPlayClicked, playAudio, stopAudio, whiteNoise, audioElement]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -154,7 +153,7 @@ const App = () => {
           setSeconds(59);
         }
       }
-    }, 1000);
+    }, 10);
 
     return () => clearInterval(intervalId);
   }, [
@@ -226,11 +225,15 @@ const App = () => {
     });
 
     navigator.mediaSession.setActionHandler("play", function () {
-      handleAudioPlayer();
+      //handleAudioPlayer();
+      audioElement.play();
+      playAudio(whiteNoise);
     });
 
     navigator.mediaSession.setActionHandler("pause", function () {
-      handleAudioPlayer();
+      //handleAudioPlayer();
+      stopAudio();
+      audioElement.pause();
     });
 
     navigator.mediaSession.setActionHandler("nexttrack", function () {
