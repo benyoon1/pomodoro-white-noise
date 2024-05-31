@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-//import addNotification from "react-push-notification";
 import "./App.css";
+import RunTimer from "./components/Timer/RunTimer";
 import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
 import StartButton from "./components/StartButton/StartButton";
 import Logo from "./components/Logo/Logo";
 import LogoBottom from "./components/Logo/LogoBottom";
-import ProfileButton from "./components/ProfileButton/ProfileButton";
-import GithubButton from "./components/ProfileButton/GithubButton";
 import RestartButton from "./components/RestartButton/RestartButton";
 import PlayButton from "./components/AudioPlayerButtons/PlayButton";
 import BeepBeep from "./assets/WristWatchAlarmSound.mp3";
@@ -306,12 +304,9 @@ const App = () => {
   };
 
   return (
-    <div className="background">
-      <div className="nav-bar">
-        <GithubButton />
-        <ProfileButton name={"B"} />
-      </div>
-      <div className="global-container">
+    <div className="global-container">
+      <div className="nav-bar">&nbsp;</div>
+      <div className="main-container">
         <div className="left-div">
           <Logo name={`Pomodoro.`} />
           <LogoBottom name={`and white noise.`} />
@@ -321,10 +316,6 @@ const App = () => {
             seconds={seconds}
           />
           <div className="left-empty-space">&nbsp;</div>
-          <div className="bottom">
-            Pomodoro timer and white noise player. Designed to save you time.
-            <br />© 2024 Ben Yoon. All rights reserved.
-          </div>
         </div>
         <div className="right-div">
           <div className="matrix-container">
@@ -390,6 +381,12 @@ const App = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="footer">
+        Pomodoro timer and white noise player. Designed to save you time.
+        <br />
+        Feel free to contribute in GitHub by clicking{" "}
+        <a href="https://github.com/benyoon1/pomodoro-white-noise">here.</a>
       </div>
     </div>
   );

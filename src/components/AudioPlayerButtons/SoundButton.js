@@ -2,12 +2,12 @@ import React from "react";
 import { IoVolumeMediumSharp, IoVolumeMuteSharp } from "react-icons/io5";
 import "./PlayButton.css";
 
-function SoundButton({
+const SoundButton = ({
   isVolumeClicked,
   onVolumeClick,
   onMouseEnter,
   onMouseLeave,
-}) {
+}) => {
   return (
     <button
       className="sound-button"
@@ -22,6 +22,6 @@ function SoundButton({
       )}
     </button>
   );
-}
+};
 
 export default SoundButton;

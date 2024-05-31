@@ -1,7 +1,7 @@
 import React from "react";
 import "./StartButton.css";
 
-function StartButton({ onStartClick, isStartClicked }) {
+const StartButton = ({ onStartClick, isStartClicked }) => {
   return (
     <button
       className={isStartClicked ? "start-clicked" : "start-button"}
@@ -10,6 +10,6 @@ function StartButton({ onStartClick, isStartClicked }) {
       {isStartClicked ? "Pause" : "Start"}
     </button>
   );
-}
+};
 
 export default StartButton;

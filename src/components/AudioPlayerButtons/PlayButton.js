@@ -2,7 +2,7 @@ import React from "react";
 import { IoPlay, IoPause } from "react-icons/io5";
 import "./PlayButton.css";
 
-function PlayButton({ onPlayClick, isPlayClicked }) {
+const PlayButton = ({ onPlayClick, isPlayClicked }) => {
   return (
     <button className="play-button" onClick={onPlayClick}>
       {isPlayClicked ? (
@@ -12,6 +12,6 @@ function PlayButton({ onPlayClick, isPlayClicked }) {
       )}
     </button>
   );
-}
+};
 
 export default PlayButton;
