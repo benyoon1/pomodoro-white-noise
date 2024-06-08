@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./App.css";
 import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
@@ -16,6 +16,8 @@ import useTimer from "./hooks/useTimer";
 import useAudioPlayer from "./hooks/useAudioPlayer";
 
 const App = () => {
+  const audioRef = useRef(null);
+
   const {
     isPlayClicked,
     isVolumeClicked,
@@ -27,7 +29,7 @@ const App = () => {
     handleNextButton,
     setVolumeHovered,
     handleAudioSelection,
-  } = useAudioPlayer();
+  } = useAudioPlayer(audioRef);
 
   const {
     timerRunning,
@@ -112,7 +114,7 @@ const App = () => {
                   <div>&nbsp;</div>
                 )}
                 <div>
-                  <audio id="myAudio" loop>
+                  <audio id="myAudio" ref={audioRef} loop>
                     <source src={SilentSound} type="audio/mpeg" />
                   </audio>
                 </div>

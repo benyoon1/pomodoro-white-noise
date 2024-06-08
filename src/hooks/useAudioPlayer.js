@@ -3,7 +3,7 @@ import Sound1 from "../assets/UnderwaterLoop.wav";
 import Sound2 from "../assets/UnderwaterNoiseFixed.wav";
 import Sound3 from "../assets/PlaneNoiseFixed.wav";
 
-const useAudioPlayer = () => {
+const useAudioPlayer = (audioRef) => {
   const [isPlayClicked, setPlayClicked] = useState(false);
   const [isVolumeClicked, setVolumeClicked] = useState(false);
   const [isVolumeHovered, setVolumeHovered] = useState(false);
@@ -64,7 +64,7 @@ const useAudioPlayer = () => {
   }, [audioContext, gainNode, source]);
 
   const handleAudioPlayer = useCallback(() => {
-    const audioElement = document.getElementById("myAudio");
+    const audioElement = audioRef.current;
     if (!isPlayClicked) {
       audioElement.play();
       playAudio(whiteNoise);
@@ -72,7 +72,7 @@ const useAudioPlayer = () => {
       stopAudio();
       audioElement.pause();
     }
-  }, [isPlayClicked, playAudio, stopAudio, whiteNoise]);
+  }, [isPlayClicked, playAudio, stopAudio, whiteNoise, audioRef]);
 
   const handleVolumeClick = () => {
     if (!isVolumeClicked) {
@@ -127,9 +127,6 @@ const useAudioPlayer = () => {
     if (isPlayClicked) {
       stopAudio();
       playAudio(sounds[sound]);
-    } else {
-      playAudio(sounds[sound]);
-      setPlayClicked(true);
     }
   };
 
