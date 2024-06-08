@@ -1,7 +1,7 @@
 import React from "react";
 import "./TimerTypeButton.css";
 
-function TimerTypeButton({ name, onTypeClick, index, clickedIndex }) {
+const TimerTypeButton = ({ name, onTypeClick, index, clickedIndex }) => {
   const isHighlightedButton = index === clickedIndex;
   return (
     <button
@@ -11,6 +11,6 @@ function TimerTypeButton({ name, onTypeClick, index, clickedIndex }) {
       {name}
     </button>
   );
-}
+};
 
 export default TimerTypeButton;

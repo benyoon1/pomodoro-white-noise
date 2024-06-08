@@ -3,7 +3,7 @@ import { IoEllipsisHorizontal } from "react-icons/io5";
 import "./PlayButton.css";
 import "./MoreButton.css";
 
-function MoreButton({ onAudioSelected }) {
+const MoreButton = ({ onAudioSelected }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
   const [isHovering, setIsHovering] = useState(false);
@@ -64,6 +64,6 @@ function MoreButton({ onAudioSelected }) {
       </div>
     </div>
   );
-}
+};
 
 export default MoreButton;

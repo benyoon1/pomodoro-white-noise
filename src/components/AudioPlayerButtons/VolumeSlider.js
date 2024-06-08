@@ -2,7 +2,7 @@ import React from "react";
 import { Slider, Box } from "@mui/material";
 import "./VolumeSlider.css";
 
-function VolumeSlider({ onVolumeChange, vol, onMouseEnter, onMouseLeave }) {
+const VolumeSlider = ({ onVolumeChange, vol, onMouseEnter, onMouseLeave }) => {
   return (
     <Box
       sx={{
@@ -31,6 +31,6 @@ function VolumeSlider({ onVolumeChange, vol, onMouseEnter, onMouseLeave }) {
       />
     </Box>
   );
-}
+};
 
 export default VolumeSlider;
