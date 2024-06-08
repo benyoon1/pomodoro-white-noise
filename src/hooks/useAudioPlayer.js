@@ -130,6 +130,31 @@ const useAudioPlayer = (audioRef) => {
     }
   };
 
+  // Media Session API
+  if ("mediaSession" in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: "Pomodoro and white noise.",
+    });
+
+    const audioElement = document.getElementById("myAudio");
+
+    navigator.mediaSession.setActionHandler("play", function () {
+      //handleAudioPlayer();
+      audioElement.play();
+      playAudio(whiteNoise);
+    });
+
+    navigator.mediaSession.setActionHandler("pause", function () {
+      //handleAudioPlayer();
+      stopAudio();
+      audioElement.pause();
+    });
+
+    navigator.mediaSession.setActionHandler("nexttrack", function () {
+      handleNextButton();
+    });
+  }
+
   return {
     isPlayClicked,
     isVolumeClicked,
