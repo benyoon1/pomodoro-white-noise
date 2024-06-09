@@ -17,12 +17,114 @@
   padding-top: 0.5rem;
 }
 
-.hover-button {
-  font-size: 2.2rem;
+.media-button {
+  font-size: 2.5rem;
   transition: font-size 0.15s ease-in-out 0s;
 }
 
-.hover-button:hover {
-  font-size: 2rem;
+.media-button:hover {
+  font-size: 2.3rem;
   transition: font-size 0.15s ease-in-out 0s;
+}
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: transparent;
+  color: var(--main-color);
+  border: none;
+  cursor: pointer;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  right: 100%; /* Position to the left of the dropdown button */
+  top: 0;
+  transform-origin: top right; /* Set transform origin for the animation */
+  border-radius: 12px;
+  right: calc(100% + 1rem);
+}
+
+/* Show the dropdown menu on click */
+.show {
+  display: block;
+  animation: panLeft 0.3s; /* Animation name and duration */
+}
+
+/* Dropdown Item */
+.dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  background-color: #f9f9f9;
+  border: none;
+  width: 100%;
+  text-align: left;
+  border-radius: 12px;
+}
+
+/* Dropdown Item Hover */
+.dropdown-content button:hover {
+  background-color: #dedede;
+}
+
+/* Animation */
+@keyframes panLeft {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.dropdown-content div {
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  display: block;
+  background-color: var(--main-color);
+  border: none;
+  width: 100%;
+  text-align: left;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.dropdown-content .selected {
+  background-color: #dedede; /* for example */
+  color: black;
+}
+
+/* Extra small devices (phones, 37.5em (600px) and down) */
+@media only screen and (max-width: 37.5em) {
+  .media-button {
+    font-size: 2rem;
+  }
+
+  .media-button:hover {
+    font-size: 1.8rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
+@media only screen and (min-width: 37.5em) {
+}
+
+/* Medium devices (landscape tablets, 48em (768px) and up) */
+@media only screen and (min-width: 48em) {
+}
+
+/* Large devices (laptops/desktops, 62em (992px) and up) */
+@media only screen and (min-width: 62em) {
+}
+
+/* Extra large devices (large laptops and desktops, 75em (1200px) and up) */
+@media only screen and (min-width: 75em) {
 }

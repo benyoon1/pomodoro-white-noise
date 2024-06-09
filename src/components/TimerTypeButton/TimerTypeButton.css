@@ -1,6 +1,7 @@
-.button {
+.button,
+.button-selected {
   font-family: "Montserrat", sans-serif;
-  font-size: 1.5rem;
+  font-size: 2rem;
   background-color: transparent;
   border: transparent;
   border-radius: 40px;
@@ -11,19 +12,35 @@
   height: 2rem;
 }
 
-.button-selected,
 .button:hover {
-  font-family: "Montserrat", sans-serif;
-  font-size: 1.5rem;
-  background-color: transparent;
-  border: transparent;
-  border-radius: 40px;
-  color: var(--main-color);
-  white-space: nowrap;
-  font-weight: 800;
+  font-size: 1.8rem;
+  transition: font-size 0.15s ease-in-out 0s;
 }
 
-.button:hover {
-  font-size: 1.4rem;
-  transition: font-size 0.15s ease-in-out 0s;
+/* Extra small devices (phones, 37.5em (600px) and down) */
+@media only screen and (max-width: 37.5em) {
+  .button,
+  .button-selected {
+    font-size: 1.7rem;
+  }
+
+  .button:hover {
+    font-size: 1.6rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
+@media only screen and (min-width: 37.5em) {
+}
+
+/* Medium devices (landscape tablets, 48em (768px) and up) */
+@media only screen and (min-width: 48em) {
+}
+
+/* Large devices (laptops/desktops, 62em (992px) and up) */
+@media only screen and (min-width: 62em) {
+}
+
+/* Extra large devices (large laptops and desktops, 75em (1200px) and up) */
+@media only screen and (min-width: 75em) {
 }

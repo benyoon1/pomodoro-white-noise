@@ -16,9 +16,9 @@ const SoundButton = ({
       onMouseLeave={onMouseLeave}
     >
       {isVolumeClicked ? (
-        <IoVolumeMuteSharp className={"hover-button"} />
+        <IoVolumeMuteSharp className={"media-button"} />
       ) : (
-        <IoVolumeMediumSharp className={"hover-button"} />
+        <IoVolumeMediumSharp className={"media-button"} />
       )}
     </button>
   );

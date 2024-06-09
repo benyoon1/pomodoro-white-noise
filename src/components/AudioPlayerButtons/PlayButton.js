@@ -6,9 +6,9 @@ const PlayButton = ({ onPlayClick, isPlayClicked }) => {
   return (
     <button className="play-button" onClick={onPlayClick}>
       {isPlayClicked ? (
-        <IoPause className={"hover-button"} />
+        <IoPause className={"media-button"} />
       ) : (
-        <IoPlay className={"hover-button"} />
+        <IoPlay className={"media-button"} />
       )}
     </button>
   );

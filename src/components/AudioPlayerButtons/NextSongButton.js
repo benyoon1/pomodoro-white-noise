@@ -5,7 +5,7 @@ import "./PlayButton.css";
 const NextSongButton = ({ onNextClick }) => {
   return (
     <button className="play-button" onClick={onNextClick}>
-      <IoPlaySkipForward className={"hover-button"} />
+      <IoPlaySkipForward className={"media-button"} />
     </button>
   );
 };

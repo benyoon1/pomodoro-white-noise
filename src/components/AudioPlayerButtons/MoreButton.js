@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IoEllipsisHorizontal } from "react-icons/io5";
 import "./PlayButton.css";
-import "./MoreButton.css";
 
 const MoreButton = ({ onAudioSelected }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +24,7 @@ const MoreButton = ({ onAudioSelected }) => {
     <div className="more-button">
       <div className="dropdown">
         <button onClick={toggleDropdown} className="dropbtn">
-          <IoEllipsisHorizontal className={"hover-button"} />
+          <IoEllipsisHorizontal className={"media-button"} />
         </button>
         <div
           className={`dropdown-content ${isOpen ? "show" : ""}`}

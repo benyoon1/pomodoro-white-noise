@@ -1,4 +1,4 @@
-.restart-button {
+.restart-box {
   color: var(--main-color);
   width: 2.2rem;
   background-color: transparent;
@@ -6,12 +6,12 @@
   line-height: normal;
 }
 
-.hover-button {
-  font-size: 2.2rem;
+.restart-button {
+  font-size: 2.5rem;
   transition: font-size 0.15s ease-in-out 0s;
 }
 
-.hover-button:hover {
-  font-size: 2rem;
+.restart-button:hover {
+  font-size: 2.3rem;
   transition: font-size 0.15s ease-in-out 0s;
 }
