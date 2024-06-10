@@ -3,7 +3,7 @@ import Sound1 from "../assets/UnderwaterLoop.wav";
 import Sound2 from "../assets/UnderwaterNoiseFixed.wav";
 import Sound3 from "../assets/PlaneNoiseFixed.wav";
 
-const useAudioPlayer = (audioRef) => {
+const useAudioPlayer = (audioRef, setSelectedButton) => {
   const [isPlayClicked, setPlayClicked] = useState(false);
   const [isVolumeClicked, setVolumeClicked] = useState(false);
   const [isVolumeMuted, setVolumeMuted] = useState(false);
@@ -114,9 +114,11 @@ const useAudioPlayer = (audioRef) => {
     if (soundCount === 2) {
       setSoundCount(0);
       setWhiteNoise(sounds[0]);
+      setSelectedButton(0);
     } else {
       setSoundCount(soundCount + 1);
       setWhiteNoise(sounds[soundCount + 1]);
+      setSelectedButton(soundCount + 1);
     }
   };
 

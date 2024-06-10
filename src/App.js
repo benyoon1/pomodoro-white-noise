@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
@@ -17,6 +17,7 @@ import useAudioPlayer from "./hooks/useAudioPlayer";
 
 const App = () => {
   const audioRef = useRef(null);
+  const [selectedButton, setSelectedButton] = useState(0);
 
   const {
     isPlayClicked,
@@ -28,7 +29,7 @@ const App = () => {
     handleVolumeChange,
     handleNextButton,
     handleAudioSelection,
-  } = useAudioPlayer(audioRef);
+  } = useAudioPlayer(audioRef, setSelectedButton);
 
   const {
     timerRunning,
@@ -78,7 +79,11 @@ const App = () => {
               ))}
             </div>
             <div className="start-row">
-              <MoreButton onAudioSelected={handleAudioSelection} />
+              <MoreButton
+                onAudioSelected={handleAudioSelection}
+                selectedButton={selectedButton}
+                setSelectedButton={setSelectedButton}
+              />
               <StartButton
                 className="start-button"
                 isStartClicked={isStartClicked}

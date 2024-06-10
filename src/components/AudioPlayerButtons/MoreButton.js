@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { IoEllipsisHorizontal } from "react-icons/io5";
 import "./PlayButton.css";
 
-const MoreButton = ({ onAudioSelected }) => {
+const MoreButton = ({ onAudioSelected, selectedButton, setSelectedButton }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
   const [isHovering, setIsHovering] = useState(false);
-  const [selectedButton, setSelectedButton] = useState(0);
 
   useEffect(() => {
     let timer;
