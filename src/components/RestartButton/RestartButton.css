@@ -18,9 +18,10 @@
 
 /* Extra small devices (phones, 37.5em (600px) and down) */
 @media only screen and (max-width: 37.5em) {
-  /* .restart-box {
-    width: 2rem;
-  } */
+  .restart-box {
+    /* width: 2rem; */
+    padding-top: 0.2rem;
+  }
 
   .restart-button {
     font-size: 2.2rem;

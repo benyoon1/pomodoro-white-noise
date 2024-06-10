@@ -111,6 +111,13 @@
   .media-button:hover {
     font-size: 1.8rem;
   }
+
+  .dropdown-content {
+    z-index: 1;
+    left: 100%; /* Position to the left of the dropdown button */
+    transform-origin: top left; /* Set transform origin for the animation */
+    left: calc(100% + 1rem);
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
