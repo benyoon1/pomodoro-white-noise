@@ -34,4 +34,7 @@
 
 /* Extra large devices (large laptops and desktops, 75em (1200px) and up) */
 @media only screen and (min-width: 75em) {
+  .timer {
+    text-align: left;
+  }
 }
