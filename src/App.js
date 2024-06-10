@@ -21,13 +21,12 @@ const App = () => {
   const {
     isPlayClicked,
     isVolumeClicked,
-    isVolumeHovered,
+    isVolumeMuted,
     volume,
     handleAudioPlayer,
     handleVolumeClick,
     handleVolumeChange,
     handleNextButton,
-    setVolumeHovered,
     handleAudioSelection,
   } = useAudioPlayer(audioRef);
 
@@ -91,9 +90,7 @@ const App = () => {
               <div className="audio-row">
                 <SoundButton
                   onVolumeClick={handleVolumeClick}
-                  isVolumeClicked={isVolumeClicked}
-                  onMouseEnter={() => setVolumeHovered(true)}
-                  onMouseLeave={() => setVolumeHovered(false)}
+                  isVolumeMuted={isVolumeMuted}
                 />
                 <PlayButton
                   alt="audio"
@@ -103,12 +100,10 @@ const App = () => {
                 <NextSongButton onNextClick={handleNextButton} />
               </div>
               <div className="volume-slider">
-                {isVolumeHovered ? (
+                {isVolumeClicked ? (
                   <VolumeSlider
                     onVolumeChange={handleVolumeChange}
                     vol={volume}
-                    onMouseEnter={() => setVolumeHovered(true)}
-                    onMouseLeave={() => setVolumeHovered(false)}
                   />
                 ) : (
                   <div>&nbsp;</div>

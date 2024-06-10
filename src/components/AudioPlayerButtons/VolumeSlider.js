@@ -2,20 +2,24 @@ import React from "react";
 import { Slider, Box } from "@mui/material";
 import "./VolumeSlider.css";
 
-const VolumeSlider = ({ onVolumeChange, vol, onMouseEnter, onMouseLeave }) => {
+const VolumeSlider = ({ onVolumeChange, vol }) => {
   return (
     <Box
       sx={{
-        width: 200,
-        marginRight: "11.7rem",
-        padding: "1rem",
+        "@media (max-width: 600px)": {
+          width: 270,
+          padding: "1rem",
+        },
+        "@media (min-width: 960px)": {
+          width: 250,
+          padding: "2rem",
+        },
+        //marginRight: "11.7rem",
         animation: "spreadOut .15s ease-out forwards", // Apply the animation
         // Initial state before animation starts
         transform: "scaleX(0)",
         transformOrigin: "center", // Adjust this based on the side it should spread out from
       }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
     >
       <Slider
         sx={{
