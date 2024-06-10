@@ -17,6 +17,11 @@
 
 /* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
 @media only screen and (min-width: 37.5em) {
+  .timer {
+    text-align: center;
+    font-size: 7rem;
+    margin-top: 5rem;
+  }
 }
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */

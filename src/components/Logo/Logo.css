@@ -29,6 +29,14 @@ h2 {
 
 /* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
 @media only screen and (min-width: 37.5em) {
+  .logo {
+    font-size: 4.5rem;
+  }
+
+  .logo-bottom {
+    font-size: 1.8rem;
+    margin-left: 2rem;
+  }
 }
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */
