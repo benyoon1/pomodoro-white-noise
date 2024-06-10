@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import Timer from "./components/Timer/Timer";
 import TimerTypeButton from "./components/TimerTypeButton/TimerTypeButton";
@@ -17,19 +17,19 @@ import useAudioPlayer from "./hooks/useAudioPlayer";
 
 const App = () => {
   const audioRef = useRef(null);
+  const [selectedButton, setSelectedButton] = useState(0);
 
   const {
     isPlayClicked,
     isVolumeClicked,
-    isVolumeHovered,
+    isVolumeMuted,
     volume,
     handleAudioPlayer,
     handleVolumeClick,
     handleVolumeChange,
     handleNextButton,
-    setVolumeHovered,
     handleAudioSelection,
-  } = useAudioPlayer(audioRef);
+  } = useAudioPlayer(audioRef, setSelectedButton);
 
   const {
     timerRunning,
@@ -79,7 +79,11 @@ const App = () => {
               ))}
             </div>
             <div className="start-row">
-              <MoreButton onAudioSelected={handleAudioSelection} />
+              <MoreButton
+                onAudioSelected={handleAudioSelection}
+                selectedButton={selectedButton}
+                setSelectedButton={setSelectedButton}
+              />
               <StartButton
                 className="start-button"
                 isStartClicked={isStartClicked}
@@ -91,9 +95,7 @@ const App = () => {
               <div className="audio-row">
                 <SoundButton
                   onVolumeClick={handleVolumeClick}
-                  isVolumeClicked={isVolumeClicked}
-                  onMouseEnter={() => setVolumeHovered(true)}
-                  onMouseLeave={() => setVolumeHovered(false)}
+                  isVolumeMuted={isVolumeMuted}
                 />
                 <PlayButton
                   alt="audio"
@@ -103,12 +105,10 @@ const App = () => {
                 <NextSongButton onNextClick={handleNextButton} />
               </div>
               <div className="volume-slider">
-                {isVolumeHovered ? (
+                {isVolumeClicked ? (
                   <VolumeSlider
                     onVolumeChange={handleVolumeChange}
                     vol={volume}
-                    onMouseEnter={() => setVolumeHovered(true)}
-                    onMouseLeave={() => setVolumeHovered(false)}
                   />
                 ) : (
                   <div>&nbsp;</div>
@@ -124,10 +124,13 @@ const App = () => {
         </div>
       </div>
       <div className="footer">
-        Pomodoro timer and white noise player. Designed to save you time.
+        Pomodoro timer and white noise player.
         <br />
-        Feel free to contribute in GitHub by clicking{" "}
-        <a href="https://github.com/benyoon1/pomodoro-white-noise">here.</a>
+        Boost your productivity and focus.{" "}
+        <span className="hide-on-small-screen">
+          Feel free to contribute on{" "}
+          <a href="https://github.com/benyoon1/pomodoro-white-noise">GitHub.</a>
+        </span>
       </div>
     </div>
   );

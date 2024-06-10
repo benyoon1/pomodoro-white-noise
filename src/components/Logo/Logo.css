@@ -1,14 +1,12 @@
 .logo {
   color: var(--main-color);
   font-family: "Montserrat", sans-serif;
-  font-size: 5rem;
   font-weight: 900;
 }
 
 .logo-bottom {
   color: var(--main-color);
   font-family: "Montserrat", sans-serif;
-  font-size: 2rem;
   font-weight: 700;
   margin-left: 1rem;
 }
@@ -16,4 +14,38 @@
 h1,
 h2 {
   margin-bottom: 0;
+}
+
+/* Extra small devices (phones, 37.5em (600px) and down) */
+@media only screen and (max-width: 37.5em) {
+  .logo {
+    font-size: 3.4rem;
+  }
+
+  .logo-bottom {
+    font-size: 1.2rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
+@media only screen and (min-width: 37.5em) {
+}
+
+/* Medium devices (landscape tablets, 48em (768px) and up) */
+@media only screen and (min-width: 48em) {
+}
+
+/* Large devices (laptops/desktops, 62em (992px) and up) */
+@media only screen and (min-width: 62em) {
+}
+
+/* Extra large devices (large laptops and desktops, 75em (1200px) and up) */
+@media only screen and (min-width: 75em) {
+  .logo {
+    font-size: 5rem;
+  }
+
+  .logo-bottom {
+    font-size: 2rem;
+  }
 }

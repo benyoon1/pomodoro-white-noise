@@ -1,54 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap");
 
-/* Extra small devices (phones, 37.5em (600px) and down) */
-/* @media only screen and (max-width: 37.5em) {
-  .global-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .nav-bar {
-    justify-content: flex-end;
-    padding: 3vh 0;
-  }
-
-  .left-div {
-    margin: 3vh 0;
-  }
-
-  .right-div {
-    margin: 3vh 0;
-  }
-
-  .matrix-container {
-    width: 12rem;
-    height: 12rem;
-  }
-
-  .start-row {
-    margin: 2rem 0;
-  }
-
-  .volume-slider {
-    position: relative;
-    left: 0;
-  }
-} */
-
-/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
-@media only screen and (min-width: 37.5em) {
-}
-
-/* Medium devices (landscape tablets, 48em (768px) and up) */
-@media only screen and (min-width: 48em) {
-}
-
-/* Large devices (laptops/desktops, 62em (992px) and up) */
-@media only screen and (min-width: 62em) {
-}
-
-/* Extra large devices (large laptops and desktops, 75em (1200px) and up) */
-@media only screen and (min-width: 75em) {
+.footer {
+  color: var(--main-color);
+  white-space: nowrap;
 }
 
 a {
@@ -67,50 +21,20 @@ a {
 
 .main-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.nav-bar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 5vh;
-}
-
-.white-noise-logo {
-  font-size: 1rem;
-}
-
-.footer {
-  color: var(--main-color);
-  white-space: nowrap;
-  margin: 10vh 7rem;
-}
-
-.left-div {
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 4vh 9rem;
-}
-
-.left-empty-space {
-  margin: 5vh 0;
-}
-
-.right-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-right: 22vw;
-  margin-top: 10vh;
+  align-items: center;
 }
 
 .matrix-container {
   display: flex;
   flex-direction: column;
-  width: 18rem;
-  height: 18rem;
+}
+
+.start-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .timer-row {
@@ -119,20 +43,108 @@ a {
   justify-content: space-between;
 }
 
-.start-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 4rem 0;
-}
-
 .audio-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.volume-slider {
-  position: relative;
-  left: -5rem;
+/* Extra small devices (phones, 37.5em (600px) and down) */
+@media only screen and (max-width: 37.5em) {
+  .global-container {
+    justify-content: flex-end;
+  }
+
+  .start-row {
+    margin: 3rem 0;
+  }
+
+  .matrix-container {
+    width: 16rem;
+    height: 16rem;
+    margin-top: 2rem;
+  }
+
+  .footer {
+    margin: 3vh 2rem;
+    font-size: 0.75rem;
+  }
+
+  .hide-on-small-screen {
+    display: none;
+  }
+
+  /* 
+  .volume-slider {
+    position: relative;
+    left: 0;
+  } */
+}
+
+/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
+@media only screen and (min-width: 37.5em) {
+}
+
+/* Medium devices (landscape tablets, 48em (768px) and up) */
+@media only screen and (min-width: 48em) {
+}
+
+/* Large devices (laptops/desktops, 62em (992px) and up) */
+@media only screen and (min-width: 62em) {
+}
+
+/* Extra large devices (large laptops and desktops, 75em (1200px) and up) */
+@media only screen and (min-width: 75em) {
+  .main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nav-bar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5vh;
+  }
+
+  .white-noise-logo {
+    font-size: 1rem;
+  }
+
+  .footer {
+    margin: 10vh 7rem;
+  }
+
+  .left-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 4vh 9rem;
+  }
+
+  .left-empty-space {
+    margin: 5vh 0;
+  }
+
+  .right-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 22vw;
+    margin-top: 10vh;
+  }
+
+  .matrix-container {
+    width: 20rem;
+    height: 20rem;
+  }
+
+  .start-row {
+    margin: 5rem 0;
+  }
+
+  .volume-slider {
+    position: relative;
+    left: -6rem;
+  }
 }

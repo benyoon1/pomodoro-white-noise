@@ -4,8 +4,8 @@ import "./RestartButton.css";
 
 const RestartButton = ({ onRestartClick }) => {
   return (
-    <button className="restart-button" onClick={onRestartClick}>
-      <IoReload className={"hover-button"} />
+    <button className="restart-box" onClick={onRestartClick}>
+      <IoReload className={"restart-button"} />
     </button>
   );
 };

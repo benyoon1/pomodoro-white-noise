@@ -3,12 +3,11 @@ import Sound1 from "../assets/UnderwaterLoop.wav";
 import Sound2 from "../assets/UnderwaterNoiseFixed.wav";
 import Sound3 from "../assets/PlaneNoiseFixed.wav";
 
-const useAudioPlayer = (audioRef) => {
+const useAudioPlayer = (audioRef, setSelectedButton) => {
   const [isPlayClicked, setPlayClicked] = useState(false);
   const [isVolumeClicked, setVolumeClicked] = useState(false);
-  const [isVolumeHovered, setVolumeHovered] = useState(false);
+  const [isVolumeMuted, setVolumeMuted] = useState(false);
   const [volume, setVolume] = useState(70);
-  const [savedVolume, setSavedVolume] = useState(50);
   const [whiteNoise, setWhiteNoise] = useState(Sound1);
   const sounds = [Sound1, Sound2, Sound3];
   const [soundCount, setSoundCount] = useState(0);
@@ -76,22 +75,22 @@ const useAudioPlayer = (audioRef) => {
 
   const handleVolumeClick = () => {
     if (!isVolumeClicked) {
-      setSavedVolume(volume);
-      handleVolumeChange(0);
       setVolumeClicked(true);
     } else {
-      handleVolumeChange(savedVolume);
       setVolumeClicked(false);
     }
   };
 
   const handleVolumeChange = (volume) => {
+    if (volume === 0) {
+      setVolumeMuted(true);
+    } else {
+      setVolumeMuted(false);
+    }
     if (audioContext === null) {
       setVolume(volume);
-      setVolumeClicked(false);
     } else {
       setVolume(volume);
-      setVolumeClicked(false);
       gainNode.gain.value = volume / 100;
     }
   };
@@ -115,9 +114,11 @@ const useAudioPlayer = (audioRef) => {
     if (soundCount === 2) {
       setSoundCount(0);
       setWhiteNoise(sounds[0]);
+      setSelectedButton(0);
     } else {
       setSoundCount(soundCount + 1);
       setWhiteNoise(sounds[soundCount + 1]);
+      setSelectedButton(soundCount + 1);
     }
   };
 
@@ -158,13 +159,13 @@ const useAudioPlayer = (audioRef) => {
   return {
     isPlayClicked,
     isVolumeClicked,
-    isVolumeHovered,
+    isVolumeMuted,
     volume,
     handleAudioPlayer,
     handleVolumeClick,
     handleVolumeChange,
     handleNextButton,
-    setVolumeHovered,
+    setVolumeMuted,
     handleAudioSelection,
   };
 };
