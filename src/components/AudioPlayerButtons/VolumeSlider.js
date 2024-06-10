@@ -10,6 +10,9 @@ const VolumeSlider = ({ onVolumeChange, vol }) => {
           width: 270,
           padding: "1rem",
         },
+        "@media (min-width: 600px)": {
+          padding: "2rem",
+        },
         "@media (min-width: 960px)": {
           width: 250,
           padding: "2rem",

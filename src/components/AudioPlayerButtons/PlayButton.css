@@ -122,6 +122,12 @@
 
 /* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
 @media only screen and (min-width: 37.5em) {
+  .dropdown-content {
+    z-index: 1;
+    left: 100%; /* Position to the left of the dropdown button */
+    transform-origin: top left; /* Set transform origin for the animation */
+    left: calc(100% + 1rem);
+  }
 }
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */
