@@ -4,17 +4,12 @@
   font-size: 2rem;
   background-color: transparent;
   border: transparent;
-  border-radius: 40px;
   color: var(--main-color);
   white-space: nowrap;
   font-weight: 800;
   width: 2.4rem;
   height: 2rem;
-}
-
-.button:hover {
-  font-size: 1.8rem;
-  transition: font-size 0.15s ease-in-out 0s;
+  padding: 0rem 0.5rem; /* mobile version acting weird so have to force this */
 }
 
 /* Extra small devices (phones, 37.5em (600px) and down) */
@@ -22,10 +17,6 @@
   .button,
   .button-selected {
     font-size: 1.7rem;
-  }
-
-  .button:hover {
-    font-size: 1.6rem;
   }
 }
 
@@ -35,6 +26,10 @@
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */
 @media only screen and (min-width: 48em) {
+  .button:hover {
+    font-size: 1.8rem;
+    transition: font-size 0.15s ease-in-out 0s;
+  }
 }
 
 /* Large devices (laptops/desktops, 62em (992px) and up) */

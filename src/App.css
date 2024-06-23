@@ -49,41 +49,33 @@ a {
   justify-content: space-between;
 }
 
-/* Extra small devices (phones, 37.5em (600px) and down) */
+/* MOBILE (phones, 37.5em (600px) and down) */
 @media only screen and (max-width: 37.5em) {
   .global-container {
     justify-content: flex-end;
   }
 
   .start-row {
-    margin: 3rem 0;
+    margin: 3.5rem 0;
   }
 
   .matrix-container {
-    width: 65vw;
-    height: 16rem;
+    width: 70vw;
+    height: 40vh;
     margin-top: 2rem;
   }
 
   .footer {
-    margin-left: 2rem;
-    margin-bottom: 3vh;
-    font-size: 0.75rem;
+    display: none;
   }
 
   .hide-on-small-screen {
     display: none;
   }
-
-  /* 
-  .volume-slider {
-    position: relative;
-    left: 0;
-  } */
 }
 
-/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
-@media only screen and (min-width: 37.5em) {
+/* (portrait tablets and large phones, 37.5em (600px) and up) */
+@media only screen and (min-width: 37.5em) and (orientation: portrait) {
   .nav-bar {
     padding: 7vh;
   }
@@ -105,6 +97,62 @@ a {
 
   .left-div {
     width: 75%;
+  }
+}
+
+/* test */
+@media only screen and (min-width: 37.5em) {
+  .main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .nav-bar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5vh;
+  }
+
+  .white-noise-logo {
+    font-size: 1rem;
+  }
+
+  .footer {
+    margin: 10vh 7rem;
+  }
+
+  .left-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 4vh 9rem;
+  }
+
+  .left-empty-space {
+    margin: 5vh 0;
+  }
+
+  .right-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 22vw;
+    margin-top: 10vh;
+  }
+
+  .matrix-container {
+    width: 20rem;
+    height: 20rem;
+  }
+
+  .start-row {
+    margin: 5rem 0;
+  }
+
+  .volume-slider {
+    position: relative;
+    left: -6rem;
   }
 }
 

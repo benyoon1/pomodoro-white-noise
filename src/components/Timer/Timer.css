@@ -11,7 +11,8 @@
 @media only screen and (max-width: 37.5em) {
   .timer {
     text-align: center;
-    font-size: 7rem;
+    font-size: 6rem;
+    margin-top: 3rem;
   }
 }
 

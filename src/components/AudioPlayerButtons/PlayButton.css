@@ -1,6 +1,7 @@
 .play-button,
 .more-button,
-.sound-button {
+.sound-button,
+.dropbtn {
   color: var(--main-color);
   width: 2.2rem;
   height: 2.2rem;
@@ -9,9 +10,11 @@
   line-height: normal;
 }
 
-/* .sound-button {
-  height: 5rem;
-} */
+.play-button,
+.sound-button,
+.dropbtn {
+  padding: 0rem 0.5rem;
+}
 
 .more-button {
   padding-top: 0.5rem;
@@ -20,19 +23,6 @@
 .media-button {
   font-size: 2.5rem;
   transition: font-size 0.15s ease-in-out 0s;
-}
-
-.media-button:hover {
-  font-size: 2.3rem;
-  transition: font-size 0.15s ease-in-out 0s;
-}
-
-/* Dropdown Button */
-.dropbtn {
-  background-color: transparent;
-  color: var(--main-color);
-  border: none;
-  cursor: pointer;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -108,10 +98,6 @@
     font-size: 2rem;
   }
 
-  .media-button:hover {
-    font-size: 1.8rem;
-  }
-
   .dropdown-content {
     z-index: 1;
     left: 100%; /* Position to the left of the dropdown button */
@@ -132,6 +118,10 @@
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */
 @media only screen and (min-width: 48em) {
+  .media-button:hover {
+    font-size: 2.3rem;
+    transition: font-size 0.15s ease-in-out 0s;
+  }
 }
 
 /* Large devices (laptops/desktops, 62em (992px) and up) */

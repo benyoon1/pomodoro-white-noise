@@ -4,15 +4,11 @@
   background-color: transparent;
   border: none;
   line-height: normal;
+  padding: 0rem 0.5rem;
 }
 
 .restart-button {
   font-size: 2.5rem;
-  transition: font-size 0.15s ease-in-out 0s;
-}
-
-.restart-button:hover {
-  font-size: 2.3rem;
   transition: font-size 0.15s ease-in-out 0s;
 }
 
@@ -26,10 +22,6 @@
   .restart-button {
     font-size: 2.2rem;
   }
-
-  .restart-button:hover {
-    font-size: 2.1rem;
-  }
 }
 
 /* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
@@ -38,6 +30,10 @@
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */
 @media only screen and (min-width: 48em) {
+  .restart-button:hover {
+    font-size: 2.3rem;
+    transition: font-size 0.15s ease-in-out 0s;
+  }
 }
 
 /* Large devices (laptops/desktops, 62em (992px) and up) */
