@@ -7,15 +7,9 @@
   padding: 0rem 0.5rem;
 }
 
-.restart-button {
-  font-size: 2.5rem;
-  transition: font-size 0.15s ease-in-out 0s;
-}
-
 /* Extra small devices (phones, 37.5em (600px) and down) */
 @media only screen and (max-width: 37.5em) {
   .restart-box {
-    /* width: 2rem; */
     padding-top: 0.2rem;
   }
 
@@ -25,11 +19,27 @@
 }
 
 /* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
+@media only screen and (min-width: 37.5em) and (orientation: portrait) {
+}
+
+/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
 @media only screen and (min-width: 37.5em) {
+  .restart-box {
+    padding-top: 0.2rem;
+  }
+
+  .restart-button {
+    font-size: 2.2rem;
+  }
 }
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */
 @media only screen and (min-width: 48em) {
+  .restart-button {
+    font-size: 2.5rem;
+    transition: font-size 0.15s ease-in-out 0s;
+  }
+
   .restart-button:hover {
     font-size: 2.3rem;
     transition: font-size 0.15s ease-in-out 0s;

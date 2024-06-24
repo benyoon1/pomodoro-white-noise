@@ -21,7 +21,6 @@
 }
 
 .media-button {
-  font-size: 2.5rem;
   transition: font-size 0.15s ease-in-out 0s;
 }
 
@@ -107,12 +106,19 @@
 }
 
 /* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
-@media only screen and (min-width: 37.5em) {
+@media only screen and (min-width: 37.5em) and (orientation: portrait) {
   .dropdown-content {
     z-index: 1;
     left: 100%; /* Position to the left of the dropdown button */
     transform-origin: top left; /* Set transform origin for the animation */
     left: calc(100% + 1rem);
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
+@media only screen and (min-width: 37.5em) {
+  .media-button {
+    font-size: 2.2rem;
   }
 }
 
@@ -126,6 +132,9 @@
 
 /* Large devices (laptops/desktops, 62em (992px) and up) */
 @media only screen and (min-width: 62em) {
+  .media-button {
+    font-size: 2.5rem;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 75em (1200px) and up) */

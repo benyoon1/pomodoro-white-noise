@@ -1,7 +1,6 @@
 .button,
 .button-selected {
   font-family: "Montserrat", sans-serif;
-  font-size: 2rem;
   background-color: transparent;
   border: transparent;
   color: var(--main-color);
@@ -21,7 +20,15 @@
 }
 
 /* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
+@media only screen and (min-width: 37.5em) and (orientation: portrait) {
+}
+
+/* Small devices (portrait tablets and large phones, 37.5em (600px) and up) */
 @media only screen and (min-width: 37.5em) {
+  .button,
+  .button-selected {
+    font-size: 1.7rem;
+  }
 }
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */
@@ -34,6 +41,10 @@
 
 /* Large devices (laptops/desktops, 62em (992px) and up) */
 @media only screen and (min-width: 62em) {
+  .button,
+  .button-selected {
+    font-size: 2rem;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 75em (1200px) and up) */
