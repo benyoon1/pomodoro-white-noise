@@ -8,7 +8,7 @@
   font-weight: 800;
   width: 2.4rem;
   height: 2rem;
-  padding: 0rem 0.5rem; /* mobile version acting weird so have to force this */
+  padding: 0rem;
 }
 
 /* Extra small devices (phones, 37.5em (600px) and down) */
@@ -16,6 +16,7 @@
   .button,
   .button-selected {
     font-size: 1.7rem;
+    padding: 0rem 0.5rem; /* mobile version acting weird so have to force this */
   }
 }
 
@@ -33,10 +34,6 @@
 
 /* Medium devices (landscape tablets, 48em (768px) and up) */
 @media only screen and (min-width: 48em) {
-  .button:hover {
-    font-size: 1.8rem;
-    transition: font-size 0.15s ease-in-out 0s;
-  }
 }
 
 /* Large devices (laptops/desktops, 62em (992px) and up) */
@@ -49,4 +46,8 @@
 
 /* Extra large devices (large laptops and desktops, 75em (1200px) and up) */
 @media only screen and (min-width: 75em) {
+  .button:hover {
+    font-size: 1.8rem;
+    transition: font-size 0.15s ease-in-out 0s;
+  }
 }

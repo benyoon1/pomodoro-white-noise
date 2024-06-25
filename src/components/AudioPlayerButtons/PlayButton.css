@@ -8,12 +8,7 @@
   background-color: transparent;
   border: none;
   line-height: normal;
-}
-
-.play-button,
-.sound-button,
-.dropbtn {
-  padding: 0rem 0.5rem;
+  padding: 0rem;
 }
 
 .more-button {
@@ -93,6 +88,12 @@
 
 /* Extra small devices (phones, 37.5em (600px) and down) */
 @media only screen and (max-width: 37.5em) {
+  .play-button,
+  .sound-button,
+  .dropbtn {
+    padding: 0rem 0.5rem; /* mobile version acting weird so have to force this */
+  }
+
   .media-button {
     font-size: 2rem;
   }
