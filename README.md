@@ -18,4 +18,4 @@ Feel free to try it out at: https://pomodoroandwhitenoise.com/
 ## Known Bugs:
 
 - When the timer is left in the background and is no longer an active tab in Chrome, a slight slowdown is noticed when compared to a real timer (~ 10 sec.)
-- In rare cases, the timer gets stuck during the performance due to fixing the accuracy problem mentioned above. It employs the _performance.now()_ method to get an accurate measure of _seconds_ left. However, it misbehaves sometimes by subtracting one more second which leads to the _seconds_ value going below zero. Please refer to the _App.js_ file for more details.
+- In Firefox, the volume bar does not work and it may be due to autoplay policy in Firefox. To be fixed.

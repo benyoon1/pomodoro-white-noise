@@ -69,10 +69,6 @@ a {
   .footer {
     display: none;
   }
-
-  .hide-on-small-screen {
-    display: none;
-  }
 }
 
 /* (portrait tablets and large phones, 37.5em (600px) and up) */

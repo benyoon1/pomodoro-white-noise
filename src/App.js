@@ -124,13 +124,16 @@ const App = () => {
         </div>
       </div>
       <div className="footer">
-        Pomodoro timer and white noise player.
+        {/* Pomodoro timer and white noise player.
         <br />
-        Boost your productivity and focus.{" "}
-        <span className="hide-on-small-screen">
-          Feel free to contribute on{" "}
-          <a href="https://github.com/benyoon1/pomodoro-white-noise">GitHub.</a>
-        </span>
+        Boost your productivity and focus.  */}
+        This is an open source project, feel free to contribute on{" "}
+        <a href="https://github.com/benyoon1/pomodoro-white-noise">GitHub.</a>
+        <br />
+        For bugs and feature requests, please create an issue{" "}
+        <a href="https://github.com/benyoon1/pomodoro-white-noise/issues">
+          here.
+        </a>
       </div>
     </div>
   );

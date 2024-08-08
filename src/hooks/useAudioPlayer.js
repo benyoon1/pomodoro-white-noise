@@ -147,8 +147,8 @@ const useAudioPlayer = (audioRef, setSelectedButton) => {
 
     navigator.mediaSession.setActionHandler("pause", function () {
       //handleAudioPlayer();
-      stopAudio();
       audioElement.pause();
+      stopAudio();
     });
 
     navigator.mediaSession.setActionHandler("nexttrack", function () {
