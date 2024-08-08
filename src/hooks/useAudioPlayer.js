@@ -65,8 +65,8 @@ const useAudioPlayer = (audioRef, setSelectedButton) => {
   const handleAudioPlayer = useCallback(() => {
     const audioElement = audioRef.current;
     if (!isPlayClicked) {
-      audioElement.play();
       playAudio(whiteNoise);
+      audioElement.play();
     } else {
       stopAudio();
       audioElement.pause();

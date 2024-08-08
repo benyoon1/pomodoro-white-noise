@@ -27,6 +27,7 @@ const useTimer = ({ handleAudioPlayer, isPlayClicked }) => {
         if (minutes === 0) {
           setStartClicked(false);
           setTimerRunning(false);
+          handleAudioPlayer();
           playBeepBeep();
         } else {
           setMinutes(minutes - 1);
@@ -36,7 +37,7 @@ const useTimer = ({ handleAudioPlayer, isPlayClicked }) => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [seconds, minutes, timerRunning, playBeepBeep]);
+  }, [seconds, minutes, timerRunning, playBeepBeep, handleAudioPlayer]);
 
   useEffect(() => {
     document.title =
