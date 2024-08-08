@@ -16,7 +16,7 @@
   .button,
   .button-selected {
     font-size: 1.7rem;
-    padding: 0rem 0.5rem; /* mobile version acting weird so have to force this */
+    padding: 0; /* mobile version acting weird so have to force this */
   }
 }
 

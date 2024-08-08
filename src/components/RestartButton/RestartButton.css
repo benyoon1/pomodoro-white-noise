@@ -11,7 +11,7 @@
 @media only screen and (max-width: 37.5em) {
   .restart-box {
     padding-top: 0.2rem;
-    padding: 0rem 0.5rem;
+    padding: 0;
   }
 
   .restart-button {

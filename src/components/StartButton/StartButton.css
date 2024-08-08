@@ -8,6 +8,7 @@
   color: var(--main-color);
   white-space: nowrap;
   font-weight: 700;
+  padding: 0;
 }
 
 /* Extra small devices (phones, 37.5em (600px) and down) */
