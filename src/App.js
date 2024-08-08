@@ -55,7 +55,7 @@ const App = () => {
     <div className="global-container">
       <div className="nav-bar">&nbsp;</div>
       <div className="main-container">
-        <div className="left-div">
+        <div className="logo-timer-container">
           <Logo name={`Pomodoro.`} />
           <LogoBottom name={`and white noise.`} />
           <Timer
@@ -65,7 +65,7 @@ const App = () => {
           />
           <div className="left-empty-space">&nbsp;</div>
         </div>
-        <div className="right-div">
+        <div className="larger-matrix-container">
           <div className="matrix-container">
             <div className="timer-row">
               {timerBar.map((value, index) => (
