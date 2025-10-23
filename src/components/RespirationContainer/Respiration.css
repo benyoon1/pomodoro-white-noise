@@ -1,0 +1,32 @@
+.respiration-container {
+  display: flex;
+  width: 100%;
+  flex-flow: column;
+  align-items: center;
+  align-self: center;
+  position: relative;
+}
+
+.respiration-title {
+  color: var(--main-color);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: large;
+  text-align: center;
+}
+
+.stage-common{
+    position: absolute;
+    background-color: var(--text-color);
+    box-sizing: border-box;
+    height: 100%;
+    z-index: -2;
+    animation: growing;
+    animation-duration: 13s;
+    animation-iteration-count: infinite;
+}
+@keyframes growing {
+  0%   {width: 0;}
+  45%  {width: 100%;}
+  100% {width: 0;}
+}

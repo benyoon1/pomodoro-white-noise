@@ -12,8 +12,17 @@ Feel free to try it out at: https://pomodoroandwhitenoise.com/
 
 ## After cloning:
 
-- Run npm install.
-- Run npm start.
+### Run on node (node required)
+```
+$ npm install
+$ npm run start
+```
+
+### Run on Docker (alternative)
+```
+$ docker build -t pomodoro-and-white-noise .
+$ docker run -p 3000:3000 pomodoro-and-white-noise
+```
 
 ## Known Bugs:
 

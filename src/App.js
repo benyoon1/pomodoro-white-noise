@@ -15,6 +15,8 @@ import DarkMode from "./components/DarkMode/DarkMode";
 import SilentSound from "./assets/15-seconds-of-silence.mp3";
 import useTimer from "./hooks/useTimer";
 import useAudioPlayer from "./hooks/useAudioPlayer";
+import useRespiration from "./hooks/useRespiration";
+import Respiration from "./components/RespirationContainer/Respiration";
 
 const App = () => {
   const audioRef = useRef(null);
@@ -50,6 +52,13 @@ const App = () => {
     handleAudioPlayer,
     isPlayClicked,
   });
+
+  const {
+    counter,
+    handleRespiration,
+    isResp,
+    respirationStage
+  } = useRespiration()
 
   useEffect(() => {
     // Apply the dark mode class to the document element
@@ -143,6 +152,7 @@ const App = () => {
               </div>
             </div>
           </div>
+          <Respiration counter={counter} handleRespiration={handleRespiration} isResp={isResp} respirationStage={respirationStage}></Respiration>
         </div>
       </div>
       <div className="footer">
